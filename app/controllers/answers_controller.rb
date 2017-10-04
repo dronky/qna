@@ -9,7 +9,7 @@ class AnswersController < ApplicationController
   def create
     @answer = @question.answers.new(answer_params)
     if @answer.save
-      redirect_to question_answer_path
+      redirect_to question_answers_path
     else
       render :index
     end

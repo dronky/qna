@@ -30,4 +30,30 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
+  describe 'POST #create' do
+    let(:question) {create(:question)}
+
+    context 'correct validation' do
+      it 'creates a valid object' do
+        expect { post :create, params: {answer: attributes_for(:answer), question_id: question}}.to change(question.answers, :count).by(1)
+      end
+
+      it 'create rendering' do
+        post :create, params: {answer: attributes_for(:answer), question_id: question}
+        expect(response).to redirect_to question_answers_path
+      end
+    end
+
+    context 'incorrect validation' do
+      it 'creates an invalid object' do
+        expect { post :create, params: {answer: attributes_for(:invalid_answer), question_id: question}}.to_not change(question.answers, :count)
+      end
+
+      it 'create rendering' do
+        post :create, params: {answer: attributes_for(:invalid_answer), question_id: question}
+        expect(response).to render_template :index
+      end
+    end
+  end
+
 end
