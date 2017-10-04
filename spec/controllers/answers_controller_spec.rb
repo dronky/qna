@@ -3,10 +3,10 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   describe 'GET #index' do
     let(:question) {create(:question)}
-    let(:answers) {create_list(:answer, 2)}
+    let(:answers) {create_list(:answer, 2, question: question)}
     before {get :index, params: {question_id: question}}
 
-    it 'create an array of all answers' do
+    it 'assign an array of all answers' do
       expect(assigns(:answers)).to match_array(answers)
     end
 
@@ -17,11 +17,11 @@ RSpec.describe AnswersController, type: :controller do
 
 
   describe 'GET #show' do
-    let(:answer) {create(:answer)}
     let(:question) {create(:question)}
+    let(:answer) {create(:answer, question: question)}
     before {get :show, params: {id: answer, question_id: question}}
 
-    it 'create @answer variable' do
+    it 'assign @answer variable' do
       expect(assigns(:answer)).to eq answer
     end
 
