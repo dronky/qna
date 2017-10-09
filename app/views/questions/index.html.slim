@@ -1,0 +1,19 @@
+h1 List of questions
+table
+  thead
+    tr
+      th Id
+      th Title
+      th Details
+  tbody
+    - @questions.each do |c|
+      tr
+        td
+          = c.id
+        td
+          = c.title
+        td
+          = link_to 'Show', question_path(c.id)
+
+h3
+  = link_to 'Create question', new_question_path

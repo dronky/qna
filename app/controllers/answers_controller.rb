@@ -6,6 +6,10 @@ class AnswersController < ApplicationController
     @answers = @question.answers.all
   end
 
+  def new
+    @answer = @question.answers.new
+  end
+
   def create
     @answer = @question.answers.new(answer_params)
     if @answer.save
@@ -29,6 +33,6 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:question_id, :body)
+    params.permit(:question_id, :body)
   end
 end

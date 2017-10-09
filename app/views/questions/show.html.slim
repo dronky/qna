@@ -1,0 +1,13 @@
+h1 Question details
+p
+  | Title: #{@question.title}
+p
+  | Body: #{@question.body}
+
+= link_to 'Answer on it','#', id: "answerButton"
+
+#comment_form
+  = render 'questions/answer_from'
+
+#list_of_answers
+  = render 'questions/list_of_answers'
