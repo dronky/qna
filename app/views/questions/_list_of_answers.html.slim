@@ -1,5 +1,17 @@
 h3 List of Answers
-ul
-  - @question.answers.each do |a|
-    li
-      = a.body
+table
+  thead
+    tr
+      th Id
+      th Body
+      th Delete
+  tbody
+    - @question.answers.each do |a|
+      tr
+        td = a.id
+        td = a.body
+        td
+          - if user_signed_in? && current_user.id == a.user_id
+            = link_to 'Delete', question_answer_path(@question, a), method: :delete, data: { confirm: 'Are you sure?' }
+          - else
+            | Not permitted

@@ -5,6 +5,7 @@ table
       th Id
       th Title
       th Details
+      th Delete
   tbody
     - @questions.each do |c|
       tr
@@ -14,6 +15,10 @@ table
           = c.title
         td
           = link_to 'Show', question_path(c.id)
-
+        td
+          - if user_signed_in? && current_user.id == c.user_id
+            = link_to 'Delete', question_path(c), method: :delete, data: { confirm: 'Are you sure?' }
+          - else
+            | Not permitted
 h3
   = link_to 'Create question', new_question_path

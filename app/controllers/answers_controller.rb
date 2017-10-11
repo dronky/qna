@@ -1,19 +1,20 @@
 class AnswersController < ApplicationController
+  before_action :authenticate_user!, only: [:create, :new, :destroy]
   before_action :take_question
   before_action :take_answer, only: [:show]
 
   def index
-    @answers = @question.answers.all
+    @answers = current_user.answers.all
   end
 
   def new
-    @answer = @question.answers.new
+    @answer = current_user.answers.new
   end
 
   def create
-    @answer = @question.answers.new(answer_params)
+    @answer = current_user.answers.new(answer_params)
     if @answer.save
-      redirect_to question_answers_path
+      redirect_to question_path(@question)
     else
       render :index
     end
@@ -22,10 +23,15 @@ class AnswersController < ApplicationController
   def show
   end
 
+  def destroy
+    @question.answers.find_by_id(params[:id]).destroy
+    redirect_to question_path(@question)
+  end
+
   private
 
   def take_answer
-    @answer = @question.answers.find(params[:id])
+    @answer = current_user.answers.find_by_id(params[:id])
   end
 
   def take_question
@@ -33,6 +39,6 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.permit(:question_id, :body)
+    params.permit(:question_id, :body, :user_id) # уточнить
   end
 end
