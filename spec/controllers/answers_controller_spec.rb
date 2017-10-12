@@ -2,11 +2,13 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   describe 'GET #index' do
+    sign_in_user
+
     let(:question) {create(:question)}
     let(:answers) {create_list(:answer, 2, question: question)}
     before {get :index, params: {question_id: question}}
 
-    it 'assign an array of all answers' do
+    it 'assign an array of all answers' do # не прошел
       expect(assigns(:answers)).to match_array(answers)
     end
 
@@ -17,11 +19,13 @@ RSpec.describe AnswersController, type: :controller do
 
 
   describe 'GET #show' do
+    sign_in_user
+
     let(:question) {create(:question)}
     let(:answer) {create(:answer, question: question)}
     before {get :show, params: {id: answer, question_id: question}}
 
-    it 'assign @answer variable' do
+    it 'assign @answer variable' do # не прошел
       expect(assigns(:answer)).to eq answer
     end
 
@@ -31,6 +35,8 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'POST #create' do
+    sign_in_user
+
     let(:question) {create(:question)}
 
     context 'correct validation' do

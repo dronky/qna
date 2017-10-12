@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  describe 'GET #inddex' do
+  describe 'GET #index' do
     let(:questions) {create_list(:question, 2)}
     before {get :index}
 
@@ -28,6 +28,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
+    sign_in_user
+
     context 'correct validation' do
       it 'creates a valid object' do
         expect {post :create, params: {question: attributes_for(:question)}}.to change(Question, :count).by(1)
