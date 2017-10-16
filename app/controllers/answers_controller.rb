@@ -12,11 +12,12 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = current_user.answers.new(answer_params)
-    if @answer.save
+    @answer = @question.answers.new(answer_params)
+    @answer.user = current_user
+    if @answer.save!
       redirect_to question_path(@question)
     else
-      render :index
+      render question_path(@question)
     end
   end
 
@@ -39,6 +40,6 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.permit(:question_id, :body, :user_id) # уточнить
+    params.require(:answer).permit(:body)
   end
 end
