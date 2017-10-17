@@ -4,7 +4,7 @@ feature 'Answer flow', %q{
   - Signed in user tries to leaves an answer
 } do
 
-  scenario 'Signed in user tries to leaves an answer' do
+  scenario 'Signed in user tries to leaves an answer', js: true do
     User.create!(email: 'test@test.com', password: '123456')
 
     visit root_path
@@ -18,7 +18,6 @@ feature 'Answer flow', %q{
     fill_in 'Body of question', with: 'rspec test'
     click_on 'Create Question'
     click_on 'Show'
-    click_on 'Answer on it'
     fill_in 'body', with: 'rspec test'
     click_on 'Save changes'
 
