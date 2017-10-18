@@ -3,14 +3,6 @@ class AnswersController < ApplicationController
   before_action :take_question
   before_action :take_answer, only: [:show]
 
-  def index
-    @answers = current_user.answers.all
-  end
-
-  def new
-    @answer = current_user.answers.new
-  end
-
   def create
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
@@ -22,7 +14,7 @@ class AnswersController < ApplicationController
 
   def destroy
     @question.answers.find_by_id(params[:id]).destroy
-    redirect_to question_path(@question)
+    redirect_to root_path
   end
 
   private

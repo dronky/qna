@@ -11,7 +11,7 @@ table
         td = a.id
         td = a.body
         td
-          - if user_signed_in? && current_user.id == a.user_id
+          - if user_signed_in? && current_user.author_of?(a)
             = link_to 'Delete', question_answer_path(@question, a), method: :delete, data: { confirm: 'Are you sure?' }
           - else
             | Not permitted
