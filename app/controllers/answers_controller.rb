@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [:create, :new, :destroy]
   before_action :take_question
-  before_action :take_answer, only: [:show]
+  before_action :take_answer, only: [:show, :destroy]
 
   def create
     @answer = @question.answers.new(answer_params)
@@ -13,8 +13,10 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @question.answers.find_by_id(params[:id]).destroy
-    redirect_to root_path
+    if current_user.author_of?(@answer)
+      @answer.destroy
+      redirect_to root_path
+    end
   end
 
   private

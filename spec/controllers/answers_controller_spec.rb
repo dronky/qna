@@ -30,13 +30,28 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
+  let!(:answer) {create(:answer, question: question, user: user)}
+  let!(:question) {create(:question)}
+  let!(:user) {create(:user)}
+
+
   describe 'DELETE #destroy' do
-    sign_in_user
+    context 'answer flow (registered user)' do
+      sign_in_user
+      before {allow(controller).to receive(:current_user).and_return(user)}
 
-    let(:answer) {create(:answer, question: question)}
-    let(:question) {create(:question)}
+      it 'tries to delete answer' do
+        expect {delete :destroy, params: {question_id: question, id: answer}, format: :js}
+            .to change(Answer, :count).by(-1)
+      end
 
-    context 'answer flow' do
+      it 'redirects to root url' do
+        delete :destroy, params: {question_id: question, id: answer}, format: :js
+        expect(response).to redirect_to root_path
+      end
+    end
+
+    context 'answer flow (unregistered user)' do # уточнить
       it 'tries to delete answer' do
         expect {delete :destroy, params: {question_id: question, id: answer}, format: :js}
             .not_to change(Answer, :count)
@@ -44,7 +59,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirects to root url' do
         delete :destroy, params: {question_id: question, id: answer}, format: :js
-        expect(response).to redirect_to root_path
+        expect(response.body).to eq "You need to sign in or sign up before continuing."
       end
     end
   end

@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
+
   describe 'GET #index' do
     let(:questions) {create_list(:question, 2)}
     before {get :index}
@@ -53,19 +54,33 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'DELETE #destroy' do
-    sign_in_user
+  let!(:user) {create(:user)}
 
+  describe 'DELETE #destroy' do
     let(:question) {create(:question)}
 
-    context 'question flow' do
+    context 'question flow (registered user)' do # уточнить
+      sign_in_user
+      before {allow(controller).to receive(:current_user).and_return(user)}
+
       it 'tries to delete question' do
-        expect {delete :destroy, params: {id: question}}.to change(Question, :count).by(-1) # уточнить
+        expect {delete :destroy, params: {id: question}}.to change(Question, :count).by(-1)
       end
 
       it 'redirects to questions url' do
         delete :destroy, params: {id: question}
         expect(response).to redirect_to questions_path
+      end
+    end
+
+    context 'question flow (unregistered user)' do
+      it 'tries to delete question' do
+        expect {delete :destroy, params: {id: question}}.to change(Question, :count).by(-1)
+      end
+
+      it 'redirects to questions url' do
+        delete :destroy, params: {id: question}
+        expect(response).to redirect_to new_user_session_path
       end
     end
   end

@@ -19,7 +19,7 @@ feature 'Answer flow', %q{
     click_on 'Create Question'
     click_on 'Show'
     click_on 'Answer on it'
-    fill_in 'body', with: 'rspec test' # уточнить
+    fill_in 'body', with: 'rspec test'
     click_on 'Create Answer'
 
     expect(page).to have_content 'rspec test'
