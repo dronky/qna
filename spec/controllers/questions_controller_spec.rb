@@ -54,14 +54,11 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  let!(:user) {create(:user)}
-
   describe 'DELETE #destroy' do
-    let(:question) {create(:question)}
+    sign_in_user
 
     context 'question flow (registered user)' do # уточнить
-      sign_in_user
-      before {allow(controller).to receive(:current_user).and_return(user)}
+      let!(:question) { create(:question, user: @user) }
 
       it 'tries to delete question' do
         expect {delete :destroy, params: {id: question}}.to change(Question, :count).by(-1)
@@ -74,8 +71,10 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'question flow (unregistered user)' do
+      let!(:question) { create(:question) }
+
       it 'tries to delete question' do
-        expect {delete :destroy, params: {id: question}}.to change(Question, :count).by(-1)
+        expect {delete :destroy, params: {id: question}}.to change(Question, :count).by(0)
       end
 
       it 'redirects to questions url' do

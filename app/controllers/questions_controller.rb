@@ -26,6 +26,8 @@ class QuestionsController < ApplicationController
     if current_user.author_of?(@question)
       @question.destroy
       redirect_to questions_path
+    else
+      redirect_to new_user_session_path
     end
   end
 
