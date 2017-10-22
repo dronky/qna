@@ -51,7 +51,7 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
 
-    context 'answer flow (unregistered user)' do # уточнить
+    context 'answer flow (unregistered user)' do
       it 'tries to delete answer' do
         expect {delete :destroy, params: {question_id: question, id: answer}, format: :js}
             .not_to change(Answer, :count)
@@ -61,6 +61,20 @@ RSpec.describe AnswersController, type: :controller do
         delete :destroy, params: {question_id: question, id: answer}, format: :js
         expect(response.body).to eq "You need to sign in or sign up before continuing."
       end
+    end
+  end
+
+  describe 'DELETE #destroy, user tries to delete the answer of another user' do
+    context 'answer flow (registered user)' do
+      let!(:user2) {create(:user)}
+      sign_in_user
+      before {allow(controller).to receive(:current_user).and_return(user2)}
+
+      it 'tries to delete answer' do
+        expect {delete :destroy, params: {question_id: question, id: answer}, format: :js}
+            .not_to change(Answer, :count)
+      end
+
     end
   end
 end

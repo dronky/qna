@@ -1,7 +1,7 @@
 td = @answer.id
 td = @answer.body
 td
-  - if user_signed_in? && current_user.id == @answer.user_id
+  - if user_signed_in? && current_user.author_of?(@answer)
     = link_to 'Delete', question_answer_path(@question, @answer), method: :delete, data: {confirm: 'Are you sure?'}
   - else
     | Not permitted
