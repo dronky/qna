@@ -8,8 +8,9 @@ RSpec.describe AnswersController, type: :controller do
     let(:question) {create(:question)}
 
     context 'correct validation' do
+
       it 'creates a valid object' do
-        expect {post :create, params: {answer: attributes_for(:answer), question_id: question}, format: :js}.to change(question.answers, :count).by(1)
+        expect {post :create, params: {answer: attributes_for(:answer), question_id: question}, format: :js}.to change(@user.answers, :count).by(1)
       end
 
       it 'create rendering' do
@@ -67,14 +68,13 @@ RSpec.describe AnswersController, type: :controller do
   describe 'DELETE #destroy, user tries to delete the answer of another user' do
     context 'answer flow (registered user)' do
       let!(:user2) {create(:user)}
+      let!(:answer2) {create(:answer, question: question, user: user2)}
       sign_in_user
-      before {allow(controller).to receive(:current_user).and_return(user2)}
 
       it 'tries to delete answer' do
-        expect {delete :destroy, params: {question_id: question, id: answer}, format: :js}
+        expect {delete :destroy, params: {question_id: question, id: answer2}, format: :js}
             .not_to change(Answer, :count)
       end
-
     end
   end
 end

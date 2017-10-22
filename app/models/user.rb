@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_many :answers
 
   def author_of?(answer)
-     self.id == answer.user_id
+    return false if answer.blank?
+    id == answer.user_id
   end
 end

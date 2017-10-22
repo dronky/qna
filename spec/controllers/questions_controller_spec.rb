@@ -83,4 +83,17 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+
+  describe 'DELETE #destroy, user tries to delete the question of another user' do
+    context 'question flow (registered user)' do
+      let!(:user2) {create(:user)}
+      let!(:question2) {create(:question, user: user2)}
+      sign_in_user
+
+      it 'tries to delete the question' do
+        expect {delete :destroy, params: {id: question2}, format: :js}
+            .not_to change(Question, :count)
+      end
+    end
+  end
 end

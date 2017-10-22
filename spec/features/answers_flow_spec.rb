@@ -19,14 +19,14 @@ feature 'Answer flow', %q{
     click_on 'Create Question'
     click_on 'Show'
     click_on 'Answer on it'
-    fill_in 'body', with: 'rspec test'
+    fill_in 'answer_body', with: 'rspec test'
     click_on 'Create Answer'
 
     expect(page).to have_content 'rspec test'
 
   end
 
-  scenario 'Signed in user can see question and its answers' do
+  scenario 'Signed in user can see question and its answers', js: true do
     user = User.create!(email: 'test@test.com', password: '123456')
     question = user.questions.create!(title: 'rspec', body: 'rspec test')
 
@@ -38,8 +38,8 @@ feature 'Answer flow', %q{
 
     visit question_path(question)
     click_on 'Answer on it'
-    fill_in 'body', with: 'rspec test'
-    click_on 'Save changes'
+    fill_in 'answer_body', with: 'rspec test'
+    click_on 'Create Answer'
 
     expect(page).to have_content 'rspec test'
     expect(current_path). to eq question_path(question)
