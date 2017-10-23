@@ -58,7 +58,7 @@ RSpec.describe QuestionsController, type: :controller do
     sign_in_user
 
     context 'question flow (registered user)' do # уточнить
-      let!(:question) { create(:question, user: @user) }
+      let!(:question) {create(:question, user: @user)}
 
       it 'tries to delete question' do
         expect {delete :destroy, params: {id: question}}.to change(Question, :count).by(-1)
@@ -71,7 +71,7 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'question flow (unregistered user)' do
-      let!(:question) { create(:question) }
+      let!(:question) {create(:question)}
 
       it 'tries to delete question' do
         expect {delete :destroy, params: {id: question}}.to change(Question, :count).by(0)
@@ -93,6 +93,19 @@ RSpec.describe QuestionsController, type: :controller do
       it 'tries to delete the question' do
         expect {delete :destroy, params: {id: question2}, format: :js}
             .not_to change(Question, :count)
+      end
+    end
+  end
+
+  describe 'PATCH #update' do
+    sign_in_user
+
+    context 'patch flow' do
+      let!(:question) {create(:question, user: @user)}
+      it 'tries to update the question' do
+        patch :update, params: {id: question, question: attributes_for(:question_edited)}, format: :js #уточнить, зачем тут передавать id
+        question.reload
+        expect(question.body).to eq 'MyText new'
       end
     end
   end

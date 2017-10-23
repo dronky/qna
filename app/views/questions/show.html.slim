@@ -1,11 +1,13 @@
 h1 Question details
-p
-  | Title: #{@question.title}
-p
-  | Body: #{@question.body}
+#question_details
+= render 'questions/question_details'
 
 - if user_signed_in?
   div
+    = link_to 'Edit', '#', id: "editButton"
+    #edit_form
+      = render 'questions/edit_question'
+    p
     = link_to 'Answer on it', '#', id: "answerButton"
     #comment_form
       = render 'questions/answer_from'

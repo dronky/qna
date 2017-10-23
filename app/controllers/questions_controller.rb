@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :take_question, only: [:show, :destroy]
+  before_action :take_question, only: [:show, :destroy, :update]
 
   def index
     @questions = Question.all
@@ -20,6 +20,11 @@ class QuestionsController < ApplicationController
   end
 
   def show
+  end
+
+  def update
+    @question.user = current_user
+    @question.update!(question_params)
   end
 
   def destroy
