@@ -1,7 +1,11 @@
 h1 Question details
 #question_details
-= render 'questions/question_details'
-
+  p Title:
+  #question_title
+    = @question.title # уточнить как вывести на один уровень
+  p Body:
+  #question_body
+    = @question.body
 - if user_signed_in?
   div
     = link_to 'Edit', '#', id: "editButton"
