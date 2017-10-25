@@ -1,5 +1,5 @@
 h4 Edit your answer here
 = form_with model: [@question, answer], method: :patch do |f|
   = f.label :body
-  = f.text_field :body, id: 'answer_body'
+  = f.text_field :body
   = f.submit
