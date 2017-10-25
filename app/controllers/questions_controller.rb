@@ -24,7 +24,7 @@ class QuestionsController < ApplicationController
 
   def update
     @question.user = current_user
-    @question.update!(question_params)
+    @question.update(question_params)
   end
 
   def destroy

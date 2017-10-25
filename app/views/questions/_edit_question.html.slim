@@ -2,7 +2,7 @@ h4
   | Edit your question
 = form_with model: @question, method: :patch do |f|
   = f.label :title
-  = f.text_field :title
+  = f.text_field :title, id: 'question_title'
   = f.label :body
-  = f.text_field :body
+  = f.text_field :body, id: 'question_body'
   = f.submit

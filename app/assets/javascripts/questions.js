@@ -7,4 +7,8 @@ $(document).on('turbolinks:load', (function () {
         e.preventDefault();
         $('#edit_form').toggle();
     });
+    $('#editAnswerButton').click(function (e) {
+        e.preventDefault();
+        $('#edit_answer').toggle();
+    });
 }));
