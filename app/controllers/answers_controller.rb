@@ -23,10 +23,13 @@ class AnswersController < ApplicationController
   end
 
   def mark_as_best
+    @question.answers.best_answer.each do |answer|
+      answer.best_answer = false
+      answer.save
+    end
     @answer = Answer.find(params[:id])
     @answer.best_answer = true
     @answer.save
-    redirect_to question_path(@question)
   end
 
   private
