@@ -22,6 +22,13 @@ class AnswersController < ApplicationController
     end
   end
 
+  def mark_as_best
+    @answer = Answer.find(params[:id])
+    @answer.best_answer = true
+    @answer.save
+    redirect_to question_path(@question)
+  end
+
   private
 
   def take_answer
@@ -35,4 +42,5 @@ class AnswersController < ApplicationController
   def answer_params
     params.require(:answer).permit(:body)
   end
+
 end

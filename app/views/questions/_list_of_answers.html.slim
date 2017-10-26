@@ -7,6 +7,7 @@ table
       th Body
       th Delete
       th Update
+      th Best Answer?
   tbody
     - @question.answers.each do |a|
       tr
@@ -22,5 +23,13 @@ table
             = link_to 'Update', '#', id: "editAnswerButton", data: { answer_id: a.id }
             #edit_answer
               = render 'questions/edit_answer', answer: a
+          - else
+            | Not permitted
+        td
+          - if user_signed_in? && current_user.author_of?(@question)
+            - if a.best_answer.equal?(false)
+              = link_to 'Mark as a best answer', question_answer_mark_as_best_path(answer_id: a.id, question_id: @question.id, id: a)
+            - else
+              | This is a best answer
           - else
             | Not permitted
