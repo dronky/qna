@@ -54,4 +54,24 @@ feature 'Questions flow', %q{
 
     expect(page).to_not have_content question.body
   end
+
+  scenario 'Author is able to mark answer as a best', js: true do
+    user = User.create!(email: 'test@test.com', password: '123456')
+    question = Question.create!(body: 'test', title: 'Test1', user: user)
+    Answer.create(body: 'test', question: question, user: user)
+    Answer.create(body: 'test2', question: question, user: user)
+
+    visit root_path
+    click_link 'Login'
+    fill_in 'Email', with: 'test@test.com'
+    fill_in 'Password', with: '123456'
+    click_on 'Log in'
+
+    visit question_path(question)
+    first(:link, 'Mark as a best answer').click
+
+    expect(page).to have_content 'This is a best answer'
+    expect(page).to have_selector('td:nth-of-type(5)', text: 'This is a best answer')
+    expect(page).to have_selector('td:nth-of-type(5)', text: 'This is a best answer', count: 1)
+  end
 end

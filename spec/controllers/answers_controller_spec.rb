@@ -89,4 +89,16 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
+  describe 'GET #mark_as_best' do
+    context 'making answer as a best for question' do
+      sign_in_user
+
+      it 'tries to mark the answer as a best' do
+        get :mark_as_best, params: {id: answer.id, question_id: question.id}, format: :js # уточнить зачем тут передавать question_id, если он передается в 34 строчке
+        answer.reload
+        expect(answer.best_answer).to eq true
+      end
+    end
+  end
 end
