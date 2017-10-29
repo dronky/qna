@@ -2,6 +2,8 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [:create, :new, :destroy]
   before_action :take_question
   before_action :take_answer, only: [:show, :destroy, :update]
+  protect_from_forgery except: :mark_as_best
+
 
   def create
     @answer = @question.answers.new(answer_params)
@@ -35,7 +37,7 @@ class AnswersController < ApplicationController
   private
 
   def take_answer
-    @answer = current_user.answers.find(params[:id])
+    @answer = current_user.answers.find_by(id: params[:id])
   end
 
   def take_question

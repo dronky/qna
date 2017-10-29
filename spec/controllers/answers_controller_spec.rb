@@ -31,10 +31,9 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
-  let!(:answer) {create(:answer, question: question, user: user)}
-  let!(:question) {create(:question)}
   let!(:user) {create(:user)}
-
+  let!(:question) {create(:question, user: user)}
+  let!(:answer) {create(:answer, question: question, user: user)}
 
   describe 'DELETE #destroy' do
     context 'answer flow (registered user)' do
@@ -48,7 +47,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirects to root url' do
         delete :destroy, params: {question_id: question, id: answer}, format: :js
-        expect(response).to redirect_to root_path
+        expect(response).to render_template :destroy
       end
     end
 
@@ -66,10 +65,12 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy, user tries to delete the answer of another user' do
+
     context 'answer flow (registered user)' do
+      sign_in_user
+
       let!(:user2) {create(:user)}
       let!(:answer2) {create(:answer, question: question, user: user2)}
-      sign_in_user
 
       it 'tries to delete answer' do
         expect {delete :destroy, params: {question_id: question, id: answer2}, format: :js}
@@ -91,11 +92,13 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'GET #mark_as_best' do
+    sign_in_user
+
     context 'making answer as a best for question' do
-      sign_in_user
+      let(:answer) {create(:answer, question: question, user: user)}
 
       it 'tries to mark the answer as a best' do
-        get :mark_as_best, params: {id: answer.id, question_id: question.id}, format: :js # уточнить зачем тут передавать question_id, если он передается в 34 строчке
+        get :mark_as_best, params: {id: answer.id, answer_id: answer.id, question_id: question.id}, format: :js
         answer.reload
         expect(answer.best_answer).to eq true
       end

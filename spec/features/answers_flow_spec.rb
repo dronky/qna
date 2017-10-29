@@ -62,8 +62,8 @@ feature 'Answer flow', %q{
     click_on 'Create Answer'
 
     within '#list_of_answers' do
-      click_on 'Edit'
-      fill_in 'answer_body', with: 'rspec test'
+      click_on 'Update'
+      fill_in 'answer_body_edit', with: 'rspec test'
 
       expect(page).to have_content 'rspec test'
     end
