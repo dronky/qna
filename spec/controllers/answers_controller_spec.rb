@@ -84,7 +84,7 @@ RSpec.describe AnswersController, type: :controller do
       sign_in_user
 
       it 'tries to update the answer' do
-        patch :update, params: {id: answer, question_id: question, answer: attributes_for(:answer)}, format: :js # уточнить зачем тут передавать question_id, если он передается в 34 строчке
+        patch :update, params: {id: answer, question_id: question, answer: attributes_for(:answer)}, format: :js
         answer.reload
         expect(answer.body).to eq 'MyText'
       end

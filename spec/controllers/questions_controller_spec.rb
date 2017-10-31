@@ -57,7 +57,7 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'DELETE #destroy' do
     sign_in_user
 
-    context 'question flow (registered user)' do # уточнить
+    context 'question flow (registered user)' do
       let!(:question) {create(:question, user: @user)}
 
       it 'tries to delete question' do

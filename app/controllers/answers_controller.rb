@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [:create, :new, :destroy]
   before_action :take_question
-  before_action :take_answer, only: [:show, :destroy, :update]
+  before_action :take_answer, only: [:show, :destroy, :update, :mark_as_best]
   protect_from_forgery except: :mark_as_best
 
 
@@ -25,13 +25,7 @@ class AnswersController < ApplicationController
   end
 
   def mark_as_best
-    @question.answers.best_answer.each do |answer|
-      answer.best_answer = false
-      answer.save
-    end
-    @answer = Answer.find(params[:id])
-    @answer.best_answer = true
-    @answer.save
+    Answer.find(params[:id]).best_answer_flag
   end
 
   private

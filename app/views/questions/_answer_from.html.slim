@@ -1,5 +1,8 @@
 h4 Write your answer here
 = form_with model: [@question, Answer.new], method: :post do |f|
+  - if Answer.new.errors.any?
+    - Answer.new.errors.full_messages.each do |m|
+      = m
   = f.label :body
   = f.text_field :body, id: 'answer_body'
   = f.submit
