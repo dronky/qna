@@ -7,7 +7,7 @@ class QuestionsController < ApplicationController
   end
 
   def new
-    @question = current_user.questions.new
+    @question = Question.new
   end
 
   def create

@@ -11,6 +11,11 @@ class AnswersController < ApplicationController
     @answer.save
   end
 
+  def new
+    @answer = @question.answers.new
+    @answer.user = current_user
+  end
+
   def show
   end
 
