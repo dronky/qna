@@ -32,13 +32,15 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   let!(:user) {create(:user)}
-  let!(:question) {create(:question, user: user)}
-  let!(:answer) {create(:answer, question: question, user: user)}
+  let!(:question) {create(:question)}
+  let!(:answer) {create(:answer, question: question)}
 
   describe 'DELETE #destroy' do
     context 'answer flow (registered user)' do
       sign_in_user
       before {allow(controller).to receive(:current_user).and_return(user)}
+      let!(:answer) {create(:answer, question: question, user: user)}
+
 
       it 'tries to delete answer' do
         expect {delete :destroy, params: {question_id: question, id: answer}, format: :js}
@@ -88,6 +90,23 @@ RSpec.describe AnswersController, type: :controller do
         answer.reload
         expect(answer.body).to eq 'MyText'
       end
+    end
+
+    context 'updating answer of another user' do
+      sign_in_user
+
+      let(:user_2) {create(:user)}
+      let(:answer_2) {create(:answer, question: question, user: user_2)}
+
+      it 'tries to update the answer' do
+        patch :update, params: {id: answer_2, question_id: question, answer: {body: 'Test Body'}}, format: :js
+        answer.reload
+
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context 'unregistered user is trying to update the answer' do # уточнить, current_user всегда nil
     end
   end
 

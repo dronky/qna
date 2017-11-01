@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [:create, :new, :destroy]
   before_action :take_question
-  before_action :take_answer, only: [:show, :destroy, :update, :mark_as_best]
+  before_action :take_answer, only: [:show, :destroy, :mark_as_best]
   protect_from_forgery except: :mark_as_best
 
 
@@ -20,7 +20,13 @@ class AnswersController < ApplicationController
   end
 
   def update
-    Answer.find(params[:id]).update(answer_params)
+    @answer = Answer.find(params[:id])
+    if current_user.author_of?(@answer)
+      @answer.update(answer_params)
+      @test = 'test'
+    else
+      redirect_to new_user_session_path
+    end
   end
 
   def destroy
