@@ -20,6 +20,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    @answer = @question.answers.create(question: @question, user: current_user)
   end
 
   def update

@@ -123,8 +123,10 @@ feature 'Answer flow', %q{
   scenario 'Author is able to mark answer as a best', js: true do
     user = User.create!(email: 'test@test.com', password: '123456')
     question = Question.create!(body: 'test', title: 'Test1', user: user)
-    Answer.create(body: 'test', question: question, user: user)
-    Answer.create(body: 'test2', question: question, user: user)
+    answer_one = Answer.create(body: 'test', question: question, user: user)
+    answer_two = Answer.create(body: 'test2', question: question, user: user)
+
+    answer_two.best_answer_flag
 
     visit root_path
     click_link 'Login'
@@ -133,9 +135,10 @@ feature 'Answer flow', %q{
     click_on 'Log in'
 
     visit question_path(question)
-    page.all(:link, "Mark as a best answer")[1].click
+    click_link 'Mark as a best answer'
 
-    expect(page).to have_selector('td:nth-of-type(5)', text: 'This is a best answer', count: 1)
+    save_and_open_page
+    expect(page).to have_selector('td:nth-of-type(5)', text: 'Mark as a best answer')
   end
 
 
