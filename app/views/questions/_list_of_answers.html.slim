@@ -30,7 +30,7 @@ table
         td
           - if user_signed_in? && current_user.author_of?(@question)
             - if a.best_answer.equal?(false)
-              = link_to 'Mark as a best answer', question_answer_mark_as_best_path(answer_id: a.id, question_id: @question.id, id: a), remote: true
+              = link_to 'Mark as a best answer', question_answer_mark_as_best_path(answer_id: a.id, question_id: @question.id, id: a), remote: true, id: "answer_#{a.id}"
             - else
               | This is a best answer
           - else

@@ -126,7 +126,7 @@ feature 'Answer flow', %q{
     answer_one = Answer.create(body: 'test', question: question, user: user)
     answer_two = Answer.create(body: 'test2', question: question, user: user)
 
-    answer_two.best_answer_flag
+    answer_one.best_answer_flag
 
     visit root_path
     click_link 'Login'
@@ -135,11 +135,8 @@ feature 'Answer flow', %q{
     click_on 'Log in'
 
     visit question_path(question)
-    click_link 'Mark as a best answer'
+    page.find("#answer_2").click
 
-    save_and_open_page
-    expect(page).to have_selector('td:nth-of-type(5)', text: 'Mark as a best answer')
+    expect(page).to have_selector("#answer_1", text: 'Mark as a best answer')
   end
-
-
 end
