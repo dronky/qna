@@ -96,17 +96,23 @@ RSpec.describe AnswersController, type: :controller do
       sign_in_user
 
       let(:user_2) {create(:user)}
-      let(:answer_2) {create(:answer, question: question, user: user_2)}
+      let(:answer_2) {create(:answer_2, question: question, user: user_2)}
 
       it 'tries to update the answer' do
         patch :update, params: {id: answer_2, question_id: question, answer: {body: 'Test Body'}}, format: :js
         answer.reload
 
+        expect(answer_2.body).to eq 'MyText2'
         expect(response).to redirect_to new_user_session_path
       end
     end
 
-    context 'unregistered user is trying to update the answer' do # уточнить, current_user всегда nil
+    context 'unregistered user is trying to update the answer' do
+      it 'unregistered user tries to update the answer' do
+        patch :update, params: {id: answer, question_id: question, answer: {body: 'Test Body'}}, format: :js
+        answer.reload
+        expect(answer.body).to eq 'MyText'
+      end
     end
   end
 

@@ -69,14 +69,11 @@ feature 'Answer flow', %q{
     end
   end
 
-  scenario 'Signed in user tries to leaves an answer with invalid body', js: true do
-    User.create!(email: 'test@test.com', password: '123456')
+  given(:user) { create(:user) }
 
-    visit root_path
-    click_link 'Login'
-    fill_in 'Email', with: 'test@test.com'
-    fill_in 'Password', with: '123456'
-    click_on 'Log in'
+  scenario 'Signed in user tries to leaves an answer with invalid body', js: true do
+
+    sign_in user
 
     visit new_question_path
     fill_in 'Title', with: 'rspec'
@@ -106,11 +103,7 @@ feature 'Answer flow', %q{
     Answer.create(body: 'test', question: question, user: user)
     Answer.create(body: 'test2', question: question, user: user)
 
-    visit root_path
-    click_link 'Login'
-    fill_in 'Email', with: 'test@test.com'
-    fill_in 'Password', with: '123456'
-    click_on 'Log in'
+    login
 
     visit question_path(question)
     first(:link, 'Mark as a best answer').click

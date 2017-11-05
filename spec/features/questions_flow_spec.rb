@@ -33,18 +33,13 @@ feature 'Questions flow', %q{
     expect(current_path).to eq new_user_session_path
   end
 
-  # given!(:user) {create(:user)} уточнить, почему при попытке залогиниться юзером из фабрики всегда показывает ошибку Invalid email or password
+  given(:user) { create(:user) }
 
   scenario 'Only author can edit own question', js:true do
-    # sign_in user уточнить почему-то не подтягивается макрос на sign_in, конфиг кажется нормально настроенным
-    user = User.create!(email: 'test@test.com', password: '123456')
-    question = Question.create!(body: 'test', title: 'Test1', user: user)
+    # user = User.create!(email: 'test@test.com', password: '123456')
+    # question = Question.create!(body: 'test', title: 'Test1', user: user)
 
-    visit root_path
-    click_link 'Login'
-    fill_in 'Email', with: 'test@test.com'
-    fill_in 'Password', with: '123456'
-    click_on 'Log in'
+    sign_in user
 
     visit question_path(question)
     click_on 'Edit'

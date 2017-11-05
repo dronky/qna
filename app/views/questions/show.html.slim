@@ -1,12 +1,13 @@
 h1 Question details
 #question_details
-  p Title:
   #question_title
-    = @question.title
-    // уточнить как выровнить в одну линию
-  p Body:
+    p
+      | Title:
+      span = @question.title
   #question_body
-    = @question.body
+    p
+      | Body:
+      span = @question.body
 - if user_signed_in?
   div
     = link_to 'Edit', '#', id: "editButton"

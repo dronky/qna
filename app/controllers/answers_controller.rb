@@ -21,11 +21,10 @@ class AnswersController < ApplicationController
 
   def update
     @answer = Answer.find(params[:id])
-    if current_user.author_of?(@answer)
-      @answer.update(answer_params)
-      @test = 'test'
-    else
+    if current_user == nil || !current_user.author_of?(@answer)
       redirect_to new_user_session_path
+    else
+      @answer.update(answer_params)
     end
   end
 
