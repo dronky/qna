@@ -34,6 +34,7 @@ feature 'Questions flow', %q{
   end
 
   given(:user) { create(:user) }
+  given(:question) { create(:question, user: user) }
 
   scenario 'Only author can edit own question', js:true do
     # user = User.create!(email: 'test@test.com', password: '123456')
