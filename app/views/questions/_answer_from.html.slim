@@ -5,4 +5,8 @@ h4 Write your answer here
       = m
   = f.label :body
   = f.text_field :body, id: 'answer_body'
+  p
+    = f.fields_for :attachments, method: :post do |a|
+      = a.label :file
+      = a.file_field :file
   = f.submit

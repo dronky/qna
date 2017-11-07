@@ -21,6 +21,7 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = @question.answers.create(question: @question, user: current_user)
+    @answer.attachments.build
   end
 
   def update
