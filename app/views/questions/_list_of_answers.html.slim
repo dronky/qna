@@ -37,9 +37,8 @@ table
           - else
             | Not permitted
         td
-          - if @answer.attachments.empty?
+          - if a.attachments.empty?
             | No attachments yet
           - else
-            ul
-            - @answer.attachments.each do |att|
-              li = link_to att.file.identifier, att.file.url
+            - a.attachments.each do |att|
+              = link_to att.file.identifier, att.file.url
