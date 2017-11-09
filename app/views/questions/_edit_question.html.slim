@@ -5,4 +5,7 @@ h4
   = f.text_field :title, id: 'question_title'
   = f.label :body
   = f.text_field :body, id: 'question_body'
+  = f.fields_for :attachments do |a|
+    = a.check_box :_destroy
+    = a.label :_destroy
   = f.submit

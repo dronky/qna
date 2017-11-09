@@ -40,5 +40,7 @@ table
           - if a.attachments.empty?
             | No attachments yet
           - else
-            - a.attachments.each do |att|
-              = link_to att.file.identifier, att.file.url
+            ul
+              - a.attachments.each do |att|
+                li
+                  = link_to att.file.identifier, att.file.url

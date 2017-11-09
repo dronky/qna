@@ -49,6 +49,7 @@ group :development, :test do
   gem 'capybara-webkit', '~> 1.14.0'
   gem 'carrierwave'
   gem 'remotipart'
+  gem "cocoon"
 end
 
 group :development do
