@@ -59,6 +59,19 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
+  describe 'GET #new' do
+
+    sign_in_user
+
+    before { get :new }
+
+    context 'Add attachment to the question' do
+      it 'builds new attachment for question' do
+        expect(assigns(:question).attachments.first).to be_a_new(Attachment)
+      end
+    end
+  end
+
   describe 'DELETE #destroy' do
     sign_in_user
 
