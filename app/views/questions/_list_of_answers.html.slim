@@ -13,9 +13,11 @@ table
       - if a.errors.any?
         - a.errors.full_messages.each do |m|
           = m
-      tr
+      tr  id=("answer_el-#{a.id}")
         td = a.id
-        td = a.body
+        td
+          span id=("answer_el_body-#{a.id}")
+            = a.body
         td
           - if user_signed_in? && current_user.author_of?(a)
             = link_to 'Delete', question_answer_path(@question, a), method: :delete, data: {confirm: 'Are you sure?', remote: true}
@@ -23,9 +25,8 @@ table
             | Not permitted
         td
           - if user_signed_in? && current_user.author_of?(a)
-            = link_to 'Update', '#', id: "editAnswerButton", data: {answer_id: a.id}
-            #edit_answer
-              = render 'questions/edit_answer', answer: a
+            = link_to 'Update', '#', class: "editAnswerButton", data: {answer_id: a.id}
+            = render 'questions/edit_answer', answer: a
           - else
             | Not permitted
         td

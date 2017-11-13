@@ -14,7 +14,7 @@ class Answer < ApplicationRecord
   def best_answer_flag
     transaction do
       question.answers.update_all(best_answer: false)
-      update(best_answer: true)
+      update!(best_answer: true)
     end
   end
 end

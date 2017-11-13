@@ -1,1 +1,1 @@
-$('#list_of_answers').html('<%= j render 'questions/list_of_answers' %>');
+$('#answer_el_body-' + <%= @answer.id %>).html('<%= @answer.body %>');
