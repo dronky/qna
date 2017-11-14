@@ -3,5 +3,5 @@
   = f.text_field :body, id: 'answer_body_edit'
   = f.fields_for :attachments do |a|
     = a.check_box :_destroy
-    = a.label :_destroy
+    = a.label :_destroy, "Delete #{a.object.file}"
   = f.submit
