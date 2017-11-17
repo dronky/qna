@@ -35,7 +35,24 @@ class AnswersController < ApplicationController
   end
 
   def mark_as_best
-    Answer.find(params[:id]).best_answer_flag
+    @answer = Answer.find(params[:id])
+    @answer.best_answer_flag
+  end
+
+  def plus_vote
+    @answer = Answer.find(params[:id])
+    Answer.find(params[:id]).add_vote
+    respond_to do |format|
+      format.json { render json: @answer }
+    end
+  end
+
+  def minus_vote
+    @answer = Answer.find(params[:id])
+    Answer.find(params[:id]).down_vote
+    respond_to do |format|
+      format.json { render json: @answer }
+    end
   end
 
   private

@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   resources :questions do
     resources :answers do
       get :mark_as_best
+      get :plus_vote
+      get :minus_vote
     end
   end
 end

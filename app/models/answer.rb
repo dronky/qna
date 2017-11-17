@@ -17,5 +17,13 @@ class Answer < ApplicationRecord
       update!(best_answer: true)
     end
   end
+
+  def add_vote
+    increment!(:votes)
+  end
+
+  def down_vote
+    decrement!(:votes)
+  end
 end
 
