@@ -41,7 +41,7 @@ class AnswersController < ApplicationController
 
   def plus_vote
     @answer = Answer.find(params[:id])
-    Answer.find(params[:id]).add_vote
+    Answer.find(params[:id]).add_vote(current_user)
     respond_to do |format|
       format.json { render json: @answer }
     end
@@ -49,7 +49,7 @@ class AnswersController < ApplicationController
 
   def minus_vote
     @answer = Answer.find(params[:id])
-    Answer.find(params[:id]).down_vote
+    Answer.find(params[:id]).down_vote(current_user)
     respond_to do |format|
       format.json { render json: @answer }
     end
