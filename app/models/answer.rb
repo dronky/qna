@@ -2,7 +2,7 @@ class Answer < ApplicationRecord
   belongs_to :question
   belongs_to :user
   has_many :attachments, as: :attachmentable
-  has_one :vote, as: :votable
+  has_many :votes, as: :votable
 
   validates :body, presence: true
 
@@ -14,10 +14,6 @@ class Answer < ApplicationRecord
 
   scope :best_answer_first, -> {best_answer ? order(best_answer: :desc) : order(best_answer: :asc)}
 
-  @counter = vote.sum # вот на этой строчке валится с ошибкой
-  # NameError: undefined local variable or method `vote' for #<Class:0x007fe7febe5f80>
-  # хотя ассоциация выше есть
-
   def best_answer_flag
     transaction do
       question.answers.update_all(best_answer: false)
@@ -26,23 +22,20 @@ class Answer < ApplicationRecord
   end
 
   def add_vote(user)
-    vote.sum += 1 # вот этот код отработает?
-    set_vote(@counter, user)
+    set_vote(1, user)
   end
 
   def down_vote(user)
-    vote.sum -= 1
-    set_vote(@counter, user)
+    set_vote(-1, user)
   end
 
-  private
+  # private
 
   def set_vote(value, user)
-    if vote.where(user: user).exists?
-      vote.update_attributes(sum: @counter)
-    else
-      vote.create!(sum: value, user: user)
-    end
+    votes.create!(sum: value, user_id: user.id, clicked: true) unless votes.where(user_id: user.id).first.clicked
+  end
+
+  def get_vote(user)
+    votes.where(votable_id: id, user_id: user.id).sum(:sum)
   end
 end
-
