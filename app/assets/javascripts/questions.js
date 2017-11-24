@@ -16,7 +16,17 @@ $(document).on('turbolinks:load', function () {
     $(document).on('ajax:success', 'a.vote_answer', function(e, data, status, xhr) {
         var answerId = $(this).data('answer-id');
         var answer = $.parseJSON(xhr.responseText);
+        var vote = $(this).data('vote');
 
-        $('#answer_vote-' + answerId).html('<p>Result:' + '<%= @answer.get_vote %>' + '</p>');
+        $('#answer_vote-' + answerId).html('<p>Result:' + vote + '</p>');
+    });
+
+    $(document).on('ajax:success', 'a.vote_question', function(e, data, status, xhr) {
+        var questionId = $(this).data('question-id');
+        var question = $.parseJSON(xhr.responseText);
+        var vote = $(this).data('vote');
+
+
+        $('#question_vote-' + questionId).html('<p>Result:' + vote + '</p>');
     });
 });

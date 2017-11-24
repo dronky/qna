@@ -32,10 +32,14 @@ class Answer < ApplicationRecord
   # private
 
   def set_vote(value, user)
-    votes.create!(sum: value, user_id: user.id, clicked: true) unless votes.where(user_id: user.id).first.clicked
+    if votes.where(votable_id: id, user_id: user).exists?
+      votes.create!(sum: value, user_id: user.id, clicked: true) unless votes.where(user_id: user.id).first.clicked
+    else
+      votes.create!(sum: value, user_id: user.id, clicked: true)
+    end
   end
 
-  def get_vote(user)
-    votes.where(votable_id: id, user_id: user.id).sum(:sum)
+  def get_vote
+    votes.where(votable_id: id).sum(:sum)
   end
 end

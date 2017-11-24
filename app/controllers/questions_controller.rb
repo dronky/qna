@@ -39,6 +39,22 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def plus_vote
+    @question = Question.find(params[:id])
+    @question.add_vote(current_user)
+    respond_to do |format|
+      format.json { render json: @question }
+    end
+  end
+
+  def minus_vote
+    @question = Question.find(params[:id])
+    @question.down_vote(current_user)
+    respond_to do |format|
+      format.json { render json: @question }
+    end
+  end
+
   private
 
   def take_question

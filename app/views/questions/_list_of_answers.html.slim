@@ -47,23 +47,23 @@ table
                 li
                   = link_to att.file.identifier, att.file.url
         td
-          - if user_signed_in? && current_user.author_of?(@question)
+          - if !user_signed_in?
             p id=("answer_vote-#{a.id}")
               | Result:
-              span = a.votes
+              span = a.get_vote
           - else
             p id=("answer_vote-#{a.id}")
               | Result:
-              span = a.votes
+              span = a.get_vote
             p
               = link_to '+',
                       question_answer_plus_vote_path(answer_id: a.id, question_id: @question.id, id: a),
                       remote: true,
-                      data: {answer_id: a.id, type: :json},
+                      data: {answer_id: a.id, type: :json, vote: a.get_vote + 1},
                       class: 'vote_answer'
             p
               = link_to '-',
                       question_answer_minus_vote_path(answer_id: a.id, question_id: @question.id, id: a),
                       remote: true,
-                      data: {answer_id: a.id, type: :json},
+                      data: {answer_id: a.id, type: :json, vote: a.get_vote - 1},
                       class: 'vote_answer'

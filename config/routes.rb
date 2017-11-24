@@ -10,5 +10,7 @@ Rails.application.routes.draw do
       get :plus_vote
       get :minus_vote
     end
+    get :plus_vote
+    get :minus_vote
   end
 end

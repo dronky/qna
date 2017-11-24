@@ -18,6 +18,30 @@ h1 Question details
           - @question.attachments.each do |att|
             li
               = link_to att.file.identifier, att.file.url
+- if !user_signed_in?
+  p id=("question_vote-#{@question.id}")
+    | Rating:
+    span = @question.get_vote
+- elsif @question.votes.where(user_id: current_user.id, clicked: true).exists?
+  p id=("question_vote-#{@question.id}")
+    | Rating:
+    span = @question.get_vote
+- else
+  p id=("question_vote-#{@question.id}")
+    | Rating:
+    span = @question.get_vote
+  p
+    = link_to '+',
+            question_plus_vote_path(question_id: @question.id, id: @question),
+            remote: true,
+            data: {question_id: @question.id, type: :json, vote: @question.get_vote + 1},
+            class: 'vote_question'
+  p
+    = link_to '-',
+            question_minus_vote_path(question_id: @question.id, id: @question),
+            remote: true,
+            data: {answer_id: @question.id, type: :json, vote: @question.get_vote - 1},
+            class: 'vote_question'
 - if user_signed_in?
   div
     = link_to 'Edit', '#', id: "editButton"
