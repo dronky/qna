@@ -17,6 +17,6 @@ $(document).on('turbolinks:load', function () {
         var answerId = $(this).data('answer-id');
         var answer = $.parseJSON(xhr.responseText);
 
-        $('#answer_vote-' + answerId).html('<p>Result:' + answer.votes + '</p>');
+        $('#answer_vote-' + answerId).html('<p>Result:' + '<%= @answer.get_vote %>' + '</p>');
     });
 });
