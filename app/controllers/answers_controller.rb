@@ -41,17 +41,28 @@ class AnswersController < ApplicationController
 
   def plus_vote
     @answer = Answer.find(params[:id])
-    @answer.add_vote(current_user)
-    respond_to do |format|
-      format.json { render json: @answer }
+    if !current_user.author_of?(@answer)
+      @answer.add_vote(current_user)
+      respond_to do |format|
+        format.json {render json: @answer.as_json(methods: :get_vote)}
+      end
     end
   end
 
   def minus_vote
     @answer = Answer.find(params[:id])
-    @answer.down_vote(current_user)
-    respond_to do |format|
-      format.json { render json: @answer }
+    if !current_user.author_of?(@answer)
+      @answer.down_vote(current_user)
+      respond_to do |format|
+        format.json {render json: @answer.as_json(methods: :get_vote)}
+      end
+    end
+  end
+
+  def reset_votes
+    @answer = Answer.find(params[:id])
+    if !current_user.author_of?(@answer)
+      @answer.reset_vote(current_user)
     end
   end
 

@@ -40,6 +40,12 @@ class Answer < ApplicationRecord
   end
 
   def get_vote
-    votes.where(votable_id: id).sum(:sum)
+    votes.sum(:sum)
+  end
+
+  def reset_vote(user)
+    if votes.where(user_id: user.id).exists?
+      votes.where(user_id: user.id).destroy_all
+    end
   end
 end

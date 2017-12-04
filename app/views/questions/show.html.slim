@@ -27,21 +27,21 @@ h1 Question details
     | Rating:
     span = @question.get_vote
 - else
-  p id=("question_vote-#{@question.id}")
+  div id=("question_vote-#{@question.id}")
     | Rating:
     span = @question.get_vote
-  p
-    = link_to '+',
-            question_plus_vote_path(question_id: @question.id, id: @question),
-            remote: true,
-            data: {question_id: @question.id, type: :json, vote: @question.get_vote + 1},
-            class: 'vote_question'
-  p
-    = link_to '-',
-            question_minus_vote_path(question_id: @question.id, id: @question),
-            remote: true,
-            data: {answer_id: @question.id, type: :json, vote: @question.get_vote - 1},
-            class: 'vote_question'
+    p
+      = link_to '+',
+              plus_vote_question_path(@question),
+              remote: true,
+              data: {type: :json, vote: @question.get_vote},
+              class: 'vote_question'
+    p
+      = link_to '-',
+              minus_vote_question_path(question_id: @question.id, id: @question),
+              remote: true,
+              data: {answer_id: @question.id, type: :json, vote: @question.get_vote - 1},
+              class: 'vote_question'
 - if user_signed_in?
   div
     = link_to 'Edit', '#', id: "editButton"

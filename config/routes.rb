@@ -9,8 +9,9 @@ Rails.application.routes.draw do
       get :mark_as_best
       get :plus_vote
       get :minus_vote
+      get :reset_votes, on: :member
     end
-    get :plus_vote
-    get :minus_vote
+    get :plus_vote, on: :member
+    get :minus_vote, on: :member
   end
 end

@@ -27,10 +27,6 @@ class Question < ApplicationRecord
   end
 
   def get_vote
-    if votes.where(votable_id: id).exists?
-      votes.where(votable_id: id).sum(:sum)
-    else
-      0
-    end
+    votes.sum(:sum)
   end
 end

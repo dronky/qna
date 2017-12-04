@@ -41,17 +41,21 @@ class QuestionsController < ApplicationController
 
   def plus_vote
     @question = Question.find(params[:id])
-    @question.add_vote(current_user)
-    respond_to do |format|
-      format.json { render json: @question }
+    if !current_user.author_of?(@question)
+      @question.add_vote(current_user)
+      respond_to do |format|
+        format.json {render json: @question.as_json(methods: :get_vote)}
+      end
     end
   end
 
   def minus_vote
     @question = Question.find(params[:id])
-    @question.down_vote(current_user)
-    respond_to do |format|
-      format.json { render json: @question }
+    if !current_user.author_of?(@question)
+      @question.down_vote(current_user)
+      respond_to do |format|
+        format.json {render json: @question.as_json(methods: :get_vote)}
+      end
     end
   end
 
