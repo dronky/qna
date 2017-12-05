@@ -1,5 +1,5 @@
 class AnswersController < ApplicationController
-  include Voted
+  include VoteFeatures
 
   before_action :authenticate_user!, only: [:create, :new, :destroy, :update]
   before_action :take_question
