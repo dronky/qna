@@ -1,4 +1,6 @@
 class QuestionsController < ApplicationController
+  include Voted
+
   before_action :authenticate_user!, except: [:index, :show]
   before_action :take_question, only: [:show, :destroy, :update]
 
@@ -39,25 +41,25 @@ class QuestionsController < ApplicationController
     end
   end
 
-  def plus_vote
-    @question = Question.find(params[:id])
-    if !current_user.author_of?(@question)
-      @question.add_vote(current_user)
-      respond_to do |format|
-        format.json {render json: @question.as_json(methods: :get_vote)}
-      end
-    end
-  end
-
-  def minus_vote
-    @question = Question.find(params[:id])
-    if !current_user.author_of?(@question)
-      @question.down_vote(current_user)
-      respond_to do |format|
-        format.json {render json: @question.as_json(methods: :get_vote)}
-      end
-    end
-  end
+  # def plus_vote
+  #   @question = Question.find(params[:id])
+  #   if !current_user.author_of?(@question)
+  #     @question.add_vote(current_user)
+  #     respond_to do |format|
+  #       format.json {render json: @question.as_json(methods: :get_vote)}
+  #     end
+  #   end
+  # end
+  #
+  # def minus_vote
+  #   @question = Question.find(params[:id])
+  #   if !current_user.author_of?(@question)
+  #     @question.down_vote(current_user)
+  #     respond_to do |format|
+  #       format.json {render json: @question.as_json(methods: :get_vote)}
+  #     end
+  #   end
+  # end
 
   private
 
