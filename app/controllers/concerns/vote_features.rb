@@ -8,23 +8,19 @@ module VoteFeatures
   def plus_vote
     if !current_user.author_of?(@votable)
       @votable.add_vote(current_user)
-      respond_to do |format|
-        format.json {render json: @votable.as_json(methods: :get_vote)}
-      end
+      render json: @votable.as_json(methods: :get_vote)
     end
   end
 
   def minus_vote
     if !current_user.author_of?(@votable)
       @votable.down_vote(current_user)
-      respond_to do |format|
-        format.json {render json: @votable.as_json(methods: :get_vote)}
-      end
+      render json: @votable.as_json(methods: :get_vote)
     end
   end
 
   def reset_votes
-    if !current_user.author_of?(@votable)
+    if current_user.author_of?(@votable)
       @votable.reset_vote(current_user)
     end
   end

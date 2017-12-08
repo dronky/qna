@@ -1,10 +1,10 @@
 class AnswersController < ApplicationController
-  include VoteFeatures
-
-  before_action :authenticate_user!, only: [:create, :new, :destroy, :update]
+  before_action :authenticate_user!
   before_action :take_question
   before_action :take_answer, only: [:show, :destroy, :mark_as_best]
   protect_from_forgery except: :mark_as_best
+
+  include VoteFeatures
 
   def create
     @answer = @question.answers.new(answer_params)
@@ -39,33 +39,6 @@ class AnswersController < ApplicationController
     @answer = Answer.find(params[:id])
     @answer.best_answer_flag
   end
-
-  # def plus_vote
-  #   @answer = Answer.find(params[:id])
-  #   if !current_user.author_of?(@answer)
-  #     @answer.add_vote(current_user)
-  #     respond_to do |format|
-  #       format.json {render json: @answer.as_json(methods: :get_vote)}
-  #     end
-  #   end
-  # end
-  #
-  # def minus_vote
-  #   @answer = Answer.find(params[:id])
-  #   if !current_user.author_of?(@answer)
-  #     @answer.down_vote(current_user)
-  #     respond_to do |format|
-  #       format.json {render json: @answer.as_json(methods: :get_vote)}
-  #     end
-  #   end
-  # end
-  #
-  # def reset_votes
-  #   @answer = Answer.find(params[:id])
-  #   if !current_user.author_of?(@answer)
-  #     @answer.reset_vote(current_user)
-  #   end
-  # end
 
   private
 

@@ -10,8 +10,8 @@ module Votable
   end
 
   def reset_vote(user)
-    if votes.where(user_id: user.id).exists?
-      votes.where(user_id: user.id).destroy_all
+    if votes.where(user: user).exists?
+      votes.where(user: user).destroy_all
     end
   end
 
@@ -22,10 +22,10 @@ module Votable
   private
 
   def set_vote(value, user)
-    if votes.where(votable_id: id, user_id: user).exists?
-      votes.create!(sum: value, user_id: user.id, clicked: true) unless votes.where(user_id: user.id).first.clicked
+    if votes.where(user: user).exists?
+      votes.create!(sum: value, user: user, clicked: true) unless votes.where(user: user).first.clicked
     else
-      votes.create!(sum: value, user_id: user.id, clicked: true)
+      votes.create!(sum: value, user: user, clicked: true)
     end
   end
 end

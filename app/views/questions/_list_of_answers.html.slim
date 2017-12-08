@@ -22,7 +22,7 @@ table
             = a.body
         td
           - if user_signed_in? && current_user.author_of?(a)
-            = link_to 'Delete', question_answer_path(@question, a), method: :delete, data: {confirm: 'Are you sure?', remote: true}
+            = link_to 'Delete', answer_path(@question, a), method: :delete, data: {confirm: 'Are you sure?', remote: true}
           - else
             | Not permitted
         td
@@ -34,7 +34,7 @@ table
         td
           - if user_signed_in? && current_user.author_of?(@question)
             - if a.best_answer.equal?(false)
-              = link_to 'Mark as a best answer', question_answer_mark_as_best_path(answer_id: a.id, question_id: @question.id, id: a), remote: true, id: "answer_#{a.id}"
+              = link_to 'Mark as a best answer', answer_mark_as_best_path(answer_id: a.id, question_id: @question.id, id: a), method: :patch,  remote: true, id: "answer_#{a.id}"
             - else
               | This is a best answer
           - else
@@ -58,16 +58,18 @@ table
               span = a.get_vote
             p
               = link_to '+',
-                      question_answer_plus_vote_path(answer_id: a.id, question_id: @question.id, id: a),
+                      answer_plus_vote_path(answer_id: a.id, question_id: @question.id, id: a),
+                      method: :post,
                       remote: true,
                       data: {answer_id: a.id, type: :json, vote: a.get_vote},
                       class: 'vote_answer'
             p
               = link_to '-',
-                      question_answer_minus_vote_path(answer_id: a.id, question_id: @question.id, id: a),
+                      answer_minus_vote_path(answer_id: a.id, question_id: @question.id, id: a),
                       remote: true,
+                      method: :post,
                       data: {answer_id: a.id, type: :json, vote: a.get_vote},
                       class: 'vote_answer'
         td
-          = link_to 'Reset', reset_votes_question_answer_path(answer_id: a.id, question_id: @question.id, id: a), remote: true
+          = link_to 'Reset', reset_votes_answer_path(answer_id: a.id, question_id: @question.id, id: a), method: :post, remote: true
           // уточнить, почему нельзя просто передать а
