@@ -5,4 +5,9 @@ h4 Write your answer here
       = m
   = f.label :body
   = f.text_field :body, id: 'answer_body'
+  p
+    = f.fields_for :attachments do |a|
+      = render 'questions/attachment_fields', f: a
+      p
+        = link_to_add_association 'add file', f, :attachments
   = f.submit

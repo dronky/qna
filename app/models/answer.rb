@@ -1,6 +1,8 @@
 class Answer < ApplicationRecord
   belongs_to :question
   belongs_to :user
+  has_many :attachments, as: :attachmentable
+  accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
   validates :body, presence: true
 
   scope :best_answer, -> {
@@ -12,7 +14,7 @@ class Answer < ApplicationRecord
   def best_answer_flag
     transaction do
       question.answers.update_all(best_answer: false)
-      update(best_answer: true)
+      update!(best_answer: true)
     end
   end
 end

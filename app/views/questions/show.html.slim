@@ -8,6 +8,16 @@ h1 Question details
     p
       | Body:
       span = @question.body
+  #question_attachments
+    p
+      | Attachments:
+      - if @question.attachments.empty?
+        | No attachments yet
+      - else
+        ul
+          - @question.attachments.each do |att|
+            li
+              = link_to att.file.identifier, att.file.url
 - if user_signed_in?
   div
     = link_to 'Edit', '#', id: "editButton"

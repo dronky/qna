@@ -1,5 +1,5 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, only: [:create, :new, :destroy]
+  before_action :authenticate_user!, only: [:create, :new, :destroy, :update]
   before_action :take_question
   before_action :take_answer, only: [:show, :destroy, :mark_as_best]
   protect_from_forgery except: :mark_as_best
@@ -21,7 +21,7 @@ class AnswersController < ApplicationController
 
   def update
     @answer = Answer.find(params[:id])
-    if current_user == nil || !current_user.author_of?(@answer)
+    if !current_user.author_of?(@answer)
       redirect_to new_user_session_path
     else
       @answer.update(answer_params)
@@ -49,7 +49,6 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body)
+    params.require(:answer).permit(:body, attachments_attributes: [:file, :id, :_destroy])
   end
-
 end

@@ -1,5 +1,7 @@
-h4 Edit your answer here
-= form_with model: [@question, answer], method: :patch do |f|
+= form_with model: [@question, answer], id: "answer-#{answer.id}", class: "answer_form", method: :patch do |f|
   = f.label :body
   = f.text_field :body, id: 'answer_body_edit'
+  = f.fields_for :attachments do |a|
+    = a.check_box :_destroy
+    = a.label :_destroy, "Delete #{a.object.file}"
   = f.submit

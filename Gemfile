@@ -47,6 +47,9 @@ group :development, :test do
   gem 'launchy'
   gem 'database_cleaner'
   gem 'capybara-webkit', '~> 1.14.0'
+  gem 'carrierwave'
+  gem 'remotipart'
+  gem "cocoon"
 end
 
 group :development do
