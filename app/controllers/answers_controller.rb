@@ -1,9 +1,10 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, only: [:create, :new, :destroy, :update]
+  before_action :authenticate_user!
   before_action :take_question
   before_action :take_answer, only: [:show, :destroy, :mark_as_best]
   protect_from_forgery except: :mark_as_best
 
+  include VoteFeatures
 
   def create
     @answer = @question.answers.new(answer_params)
@@ -35,7 +36,8 @@ class AnswersController < ApplicationController
   end
 
   def mark_as_best
-    Answer.find(params[:id]).best_answer_flag
+    @answer = Answer.find(params[:id])
+    @answer.best_answer_flag
   end
 
   private

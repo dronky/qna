@@ -8,19 +8,21 @@ table
       th Update
       th Best Answer?
       th Attachments
+      th Vote
+      th Reset
   tbody
     - @question.answers.best_answer_first.each do |a|
       - if a.errors.any?
         - a.errors.full_messages.each do |m|
           = m
-      tr  id=("answer_el-#{a.id}")
+      tr id=("answer_el-#{a.id}")
         td = a.id
         td
           span id=("answer_el_body-#{a.id}")
             = a.body
         td
           - if user_signed_in? && current_user.author_of?(a)
-            = link_to 'Delete', question_answer_path(@question, a), method: :delete, data: {confirm: 'Are you sure?', remote: true}
+            = link_to 'Delete', answer_path(@question, a), method: :delete, data: {confirm: 'Are you sure?', remote: true}
           - else
             | Not permitted
         td
@@ -32,7 +34,7 @@ table
         td
           - if user_signed_in? && current_user.author_of?(@question)
             - if a.best_answer.equal?(false)
-              = link_to 'Mark as a best answer', question_answer_mark_as_best_path(answer_id: a.id, question_id: @question.id, id: a), remote: true, id: "answer_#{a.id}"
+              = link_to 'Mark as a best answer', answer_mark_as_best_path(answer_id: a.id, question_id: @question.id, id: a), method: :patch,  remote: true, id: "answer_#{a.id}"
             - else
               | This is a best answer
           - else
@@ -45,3 +47,29 @@ table
               - a.attachments.each do |att|
                 li
                   = link_to att.file.identifier, att.file.url
+        td
+          - if !user_signed_in?
+            p id=("answer_vote-#{a.id}")
+              | Result:
+              span = a.get_vote
+          - else
+            p id=("answer_vote-#{a.id}")
+              | Result:
+              span = a.get_vote
+            p
+              = link_to '+',
+                      answer_plus_vote_path(answer_id: a.id, question_id: @question.id, id: a),
+                      method: :post,
+                      remote: true,
+                      data: {answer_id: a.id, type: :json, vote: a.get_vote},
+                      class: 'vote_answer'
+            p
+              = link_to '-',
+                      answer_minus_vote_path(answer_id: a.id, question_id: @question.id, id: a),
+                      remote: true,
+                      method: :post,
+                      data: {answer_id: a.id, type: :json, vote: a.get_vote},
+                      class: 'vote_answer'
+        td
+          = link_to 'Reset', reset_votes_answer_path(answer_id: a.id, question_id: @question.id, id: a), method: :post, remote: true
+          // уточнить, почему нельзя просто передать а

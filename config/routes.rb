@@ -5,8 +5,13 @@ Rails.application.routes.draw do
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :questions do
-    resources :answers do
-      get :mark_as_best
+    resources :answers, shallow: true do
+      patch :mark_as_best
+      post :plus_vote
+      post :minus_vote
+      post :reset_votes, on: :member
     end
+    post :plus_vote, on: :member
+    post :minus_vote, on: :member
   end
 end

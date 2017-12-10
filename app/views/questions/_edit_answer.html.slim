@@ -1,4 +1,4 @@
-= form_with model: [@question, answer], id: "answer-#{answer.id}", class: "answer_form", method: :patch do |f|
+= form_with model: [answer], id: "answer-#{answer.id}", class: "answer_form", method: :patch do |f|
   = f.label :body
   = f.text_field :body, id: 'answer_body_edit'
   = f.fields_for :attachments do |a|

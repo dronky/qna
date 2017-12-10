@@ -129,4 +129,15 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
+  describe 'GET #plus_vote' do
+    sign_in_user
+
+    context 'answer vote' do
+      it 'increase rating by 1' do
+        get :plus_vote, params: {id: answer.id, answer_id: answer.id, question_id: question.id}, format: :js
+        expect(answer.get_vote).to eq(1)
+      end
+    end
+  end
 end
