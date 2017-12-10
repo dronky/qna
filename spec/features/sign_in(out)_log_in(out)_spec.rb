@@ -21,7 +21,7 @@ feature 'Devise flow', %q{
 
 
   scenario 'Registered user tries to log out' do
-    User.create!(email: 'test@test.com', password: '123456') # уточнить
+    User.create!(email: 'test@test.com', password: '123456')
 
     visit root_path
     click_link 'Login'
