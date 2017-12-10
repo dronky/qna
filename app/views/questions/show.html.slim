@@ -1,0 +1,19 @@
+h1 Question details
+p
+  | Title: #{@question.title}
+p
+  | Body: #{@question.body}
+
+- if user_signed_in?
+  div
+    = link_to 'Answer on it', '#', id: "answerButton"
+    #comment_form
+      = render 'questions/answer_from'
+- else
+  p
+    | Please Sign Up or Sign In to be able to leave an answer.
+  h2
+    = link_to "Sign up", new_user_registration_path
+
+#list_of_answers
+  = render 'questions/list_of_answers'

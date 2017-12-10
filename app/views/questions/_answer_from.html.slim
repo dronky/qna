@@ -1,0 +1,4 @@
+h4 Write your answer here
+= form_with model: [@question, Answer.new], method: :post do |f|
+  = f.text_field :body
+  = f.submit
