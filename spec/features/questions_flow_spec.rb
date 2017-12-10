@@ -33,4 +33,22 @@ feature 'Questions flow', %q{
     expect(current_path).to eq new_user_session_path
   end
 
+  given(:user) { create(:user) }
+  given(:question) { create(:question, user: user) }
+
+  scenario 'Only author can edit own question', js:true do
+    # user = User.create!(email: 'test@test.com', password: '123456')
+    # question = Question.create!(body: 'test', title: 'Test1', user: user)
+
+    sign_in user
+
+    visit question_path(question)
+    click_on 'Edit'
+    fill_in 'question_title', with: 'title'
+    fill_in 'question_body', with: 'body'
+    click_on 'Update Question'
+
+    expect(page).to_not have_content question.body
+  end
+
 end
