@@ -25,4 +25,15 @@ $(document).on('turbolinks:load', function () {
 
         $('#question_vote-' + question.id).html('<p>Result:' + question.get_vote + '</p>');
     });
+
+    App.cable.subscriptions.create('QuestionsChannel', {
+        connected: function() {
+            console.log('Connected');
+            this.perform('follow');
+            },
+
+        received: function(data) {
+            $('.questions_list').append(data)
+        }
+    });
 });

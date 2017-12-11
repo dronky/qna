@@ -1,6 +1,7 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :take_question, only: [:show, :destroy, :update]
+  after_action :publish_question, only: [:create]
 
   include VoteFeatures
 
@@ -49,5 +50,15 @@ class QuestionsController < ApplicationController
 
   def question_params
     params.require(:question).permit(:title, :body, attachments_attributes: [:file, :id, :_destroy])
+  end
+
+  def publish_question
+    return if @question.errors.any?
+    ActionCable.server.broadcast(
+        'questions',
+        ApplicationController.render(
+            partial: 'questions/question',
+            locals: {question: @question, current_user: @question.user})
+    )
   end
 end
