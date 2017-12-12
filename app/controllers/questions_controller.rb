@@ -2,6 +2,7 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :take_question, only: [:show, :destroy, :update]
   after_action :publish_question, only: [:create]
+  after_action :publish_comment, only: [:add_comment]
 
   include VoteFeatures
   include CommentFeature
@@ -60,6 +61,16 @@ class QuestionsController < ApplicationController
         ApplicationController.render(
             partial: 'questions/question',
             locals: {question: @question, current_user: @question.user})
+    )
+  end
+
+  def publish_comment
+    @question = Question.find(params[:id])
+    ActionCable.server.broadcast(
+        'comments',
+        ApplicationController.render(
+            partial: 'questions/comment_for_websocket',
+            locals: {comment: @question.comments.last})
     )
   end
 end

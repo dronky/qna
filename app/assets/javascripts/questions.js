@@ -53,4 +53,15 @@ $(document).on('turbolinks:load', function () {
             $('#list_of_answers').append(data)
         }
     });
+
+    App.cable.subscriptions.create('CommentsChannel', {
+        connected: function() {
+            console.log('Connected - comments');
+            this.perform('follow');
+        },
+
+        received: function(data) {
+            $('.list_of_comments').prepend(data)
+        }
+    });
 });
