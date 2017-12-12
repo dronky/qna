@@ -29,7 +29,7 @@ $(document).on('turbolinks:load', function () {
     $(document).on('ajax:success', '.send_comment_form', function(e, data, status, xhr) {
         var comment = $.parseJSON(xhr.responseText);
 
-        $('.list_of_comments').append('<li>'+ comment.get_comment+ '</li>');
+        $('.list_of_comments').prepend('<li>'+ comment.get_comment+ '</li>');
     });
 
     App.cable.subscriptions.create('QuestionsChannel', {
