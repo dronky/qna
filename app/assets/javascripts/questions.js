@@ -26,14 +26,31 @@ $(document).on('turbolinks:load', function () {
         $('#question_vote-' + question.id).html('<p>Result:' + question.get_vote + '</p>');
     });
 
+    $(document).on('ajax:success', '.send_comment_form', function(e, data, status, xhr) {
+        var comment = $.parseJSON(xhr.responseText);
+
+        $('.list_of_comments').append('<li>'+ comment.get_comment+ '</li>');
+    });
+
     App.cable.subscriptions.create('QuestionsChannel', {
         connected: function() {
-            console.log('Connected');
+            console.log('Connected - questions');
             this.perform('follow');
             },
 
         received: function(data) {
             $('.questions_list').append(data)
+        }
+    });
+
+    App.cable.subscriptions.create('AnswersChannel', {
+        connected: function() {
+            console.log('Connected - answers');
+            this.perform('follow');
+        },
+
+        received: function(data) {
+            $('#list_of_answers').append(data)
         }
     });
 });

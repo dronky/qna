@@ -4,6 +4,7 @@ class QuestionsController < ApplicationController
   after_action :publish_question, only: [:create]
 
   include VoteFeatures
+  include CommentFeature
 
   def index
     @questions = Question.all
@@ -49,7 +50,7 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, attachments_attributes: [:file, :id, :_destroy])
+    params.require(:question).permit(:title, :body, :comment, attachments_attributes: [:file, :id, :_destroy])
   end
 
   def publish_question
