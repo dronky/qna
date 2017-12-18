@@ -64,4 +64,15 @@ $(document).on('turbolinks:load', function () {
             $('.list_of_comments').prepend(data)
         }
     });
+
+    App.cable.subscriptions.create('AnswersCommentChannel', {
+        connected: function() {
+            console.log('Connected - answer comments');
+            this.perform('follow');
+        },
+
+        received: function(data) {
+            $('.comments_answer_' + data.answer_id).append(data.body)
+        }
+    });
 });

@@ -51,4 +51,56 @@ feature 'Questions flow', %q{
     expect(page).to_not have_content question.body
   end
 
+  context 'multiple sessions' do
+    scenario 'question appears on the another page'do
+      Capybara.using_session('user') do
+        sign_in user
+        visit questions_path
+      end
+
+      Capybara.using_session('guest') do
+        visit questions_path
+      end
+
+      Capybara.using_session('user') do
+        visit new_question_path
+        fill_in 'Title', with: 'rspec'
+        fill_in 'Body of question', with: 'rspec test'
+        click_on 'Create Question'
+      end
+
+      Capybara.using_session('guest') do
+        visit questions_path
+        expect(page).to have_content 'rspec'
+      end
+    end
+  end
+
+  context 'multiple sessions' do
+    scenario 'comment appears on the another page'do
+
+      Capybara.using_session('user') do
+        sign_in user
+        visit question_path(question)
+      end
+
+      Capybara.using_session('guest') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user') do
+        visit question_path(question)
+        within ".comments_section" do
+          fill_in 'comment', with: 'rspec'
+          click_on 'Comment'
+        end
+      end
+
+      Capybara.using_session('guest') do
+        visit question_path(question)
+        expect(page).to have_content 'rspec'
+      end
+    end
+  end
+
 end

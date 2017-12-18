@@ -3,9 +3,11 @@ class AnswersController < ApplicationController
   before_action :take_question
   before_action :take_answer, only: [:show, :destroy, :mark_as_best]
   after_action :publish_answer, only: [:create]
+  after_action :publish_comment, only: [:add_comment]
   protect_from_forgery except: :mark_as_best
 
   include VoteFeatures
+  include CommentFeature
 
   def create
     @answer = @question.answers.new(answer_params)
@@ -63,5 +65,17 @@ class AnswersController < ApplicationController
             partial: 'questions/answer',
             locals: {answer: @answer, current_user: @answer.user})
     )
+  end
+
+  def publish_comment
+    @answer = Answer.find(params[:answer_id])
+    return if @answer.errors.any?
+    ActionCable.server.broadcast(
+        'answer_comments',
+        {answer_id: @answer.id, body:
+        ApplicationController.render(
+            partial: 'questions/comment_for_websocket',
+            locals: {comment: @answer.comments.last})
+        })
   end
 end

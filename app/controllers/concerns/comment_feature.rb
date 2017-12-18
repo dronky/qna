@@ -16,7 +16,7 @@ module CommentFeature
     controller_name.classify.constantize
   end
 
-  def set_commentable
-    @commentable = model_klass.find(params[:id])
+  def set_commentable #сделать через case-when
+    controller_name == "answers" ? @commentable = model_klass.find(params[:answer_id]) : @commentable = model_klass.find(params[:id])
   end
 end

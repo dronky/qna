@@ -132,4 +132,8 @@ feature 'Answer flow', %q{
 
     expect(page).to have_selector("#answer_1", text: 'Mark as a best answer')
   end
+
+  given(:user) { create(:user) }
+  given(:question) { create(:question, user: user) }
+
 end

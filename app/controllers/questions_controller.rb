@@ -44,6 +44,7 @@ class QuestionsController < ApplicationController
     end
   end
 
+
   private
 
   def take_question
