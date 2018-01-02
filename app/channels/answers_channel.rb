@@ -1,5 +1,5 @@
 class AnswersChannel < ApplicationCable::Channel
-  def follow
-    stream_from 'answers'
+  def follow_answer(id)
+    stream_from "question_#{id}"
   end
 end

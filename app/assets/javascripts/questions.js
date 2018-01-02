@@ -45,8 +45,9 @@ $(document).on('turbolinks:load', function () {
 
     App.cable.subscriptions.create('AnswersChannel', {
         connected: function() {
+            var question_id = $(this).data('question_id');
             console.log('Connected - answers');
-            this.perform('follow');
+            this.perform('follow_answer', {id: question_id});
         },
 
         received: function(data) {

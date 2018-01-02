@@ -74,4 +74,4 @@ table
         td
           = link_to 'Reset', reset_votes_answer_path(answer_id: a.id, question_id: @question.id, id: a), method: :post, remote: true
         td
-          = render 'answer_comments', answer: a
+          = render 'questions/answer_comments', answer: a
