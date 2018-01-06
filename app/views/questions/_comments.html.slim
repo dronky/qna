@@ -4,6 +4,6 @@ h2 Leave your comment for question here
   = f.text_field :comment
   = f.submit "Comment"
 ul
-  .list_of_comments
+  div class=("comments_question_#{@question.id}")
     - @question.comments.each do |comment|
       li = comment.body

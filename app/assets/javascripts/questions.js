@@ -54,11 +54,12 @@ $(document).on('turbolinks:load', function () {
             $('#list_of_answers').append(data)
         }
     });
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
     App.cable.subscriptions.create('CommentsChannel', {
         connected: function() {
+            var id = $('.')
             console.log('Connected - comments');
-            this.perform('follow');
+            this.perform('follow', {id: id, type: type});
         },
 
         received: function(data) {
