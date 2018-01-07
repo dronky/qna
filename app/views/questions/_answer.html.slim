@@ -53,3 +53,5 @@ tr id=("answer_el-#{answer.id}")
               class: 'vote_answer'
   td
     = link_to 'Reset', reset_votes_answer_path(answer_id: answer.id, id: answer), method: :post, remote: true
+  td
+    = render 'questions/answer_comments', answer: answer

@@ -75,13 +75,5 @@ class QuestionsController < ApplicationController
                 locals: {comment: @question.comments.last})
         })
 
-
-
-    #
-    # {question_id: @question.id, body:
-    #     ApplicationController.render(
-    #         partial: 'questions/comment_for_websocket',
-    #         locals: {comment: @question.comments.last})
-    # })
   end
 end
