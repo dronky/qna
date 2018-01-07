@@ -57,26 +57,14 @@ $(document).on('turbolinks:load', function () {
 
     App.cable.subscriptions.create('CommentsChannel', {
         connected: function() {
-            var id = $('.comment_details').data('id');
-            var type = $('.comment_details').data('type');
+            var id = $('.comment_question_details').data('id');
             console.log('Connected - comments');
-            this.perform('follow', {id: id, type: type});
+            this.perform('follow', {id: id});
         },
 
         received: function(data) {
-            $('.comment_details').prepend(data);
-            console.log('PREPEND!!!!!!!!!!!!');
+            var cls = '.comment_'+data['type']+'_details';
+            $(cls).prepend(data['body']);
         }
     });
-
-    // App.cable.subscriptions.create('AnswersCommentChannel', {
-    //     connected: function() {
-    //         console.log('Connected - answer comments');
-    //         this.perform('follow');
-    //     },
-    //
-    //     received: function(data) {
-    //         $('.comments_answer_' + data.answer_id).append(data.body)
-    //     }
-    // });
 });
