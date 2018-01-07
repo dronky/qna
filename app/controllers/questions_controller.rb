@@ -68,10 +68,19 @@ class QuestionsController < ApplicationController
   def publish_comment
     @question = Question.find(params[:id])
     ActionCable.server.broadcast(
-        'comments',
-        ApplicationController.render(
-            partial: 'questions/comment_for_websocket',
-            locals: {comment: @question.comments.last})
-    )
+        "comments_question_#{@question.id}",
+            ApplicationController.render(
+                partial: 'questions/comment_for_websocket',
+                locals: {comment: @question.comments.last})
+        )
+
+
+
+    #
+    # {question_id: @question.id, body:
+    #     ApplicationController.render(
+    #         partial: 'questions/comment_for_websocket',
+    #         locals: {comment: @question.comments.last})
+    # })
   end
 end

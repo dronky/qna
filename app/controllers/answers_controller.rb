@@ -71,11 +71,11 @@ class AnswersController < ApplicationController
     @answer = Answer.find(params[:answer_id])
     return if @answer.errors.any?
     ActionCable.server.broadcast(
-        'answer_comments',
-        {answer_id: @answer.id, body:
+        "comments_answer_#{@answer.id}",
+
         ApplicationController.render(
             partial: 'questions/comment_for_websocket',
             locals: {comment: @answer.comments.last})
-        })
+        )
   end
 end

@@ -6,6 +6,7 @@ h4 Leave your comment for answer here
   = f.hidden_field :answer_id, value: answer.id
   = f.submit "Comment"
 ul
-  div class=("comments_answer_#{answer.id}")
+  / div class=("comments_answer_#{answer.id}")
+  .comment_details data-id="#{answer.id}" data-type="answer"
     - answer.comments.each do |comment|
       li = comment.body

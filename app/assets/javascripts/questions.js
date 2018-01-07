@@ -57,24 +57,26 @@ $(document).on('turbolinks:load', function () {
 
     App.cable.subscriptions.create('CommentsChannel', {
         connected: function() {
-            var id = $('.')
+            var id = $('.comment_details').data('id');
+            var type = $('.comment_details').data('type');
             console.log('Connected - comments');
             this.perform('follow', {id: id, type: type});
         },
 
         received: function(data) {
-            $('.list_of_comments').prepend(data)
+            $('.comment_details').prepend(data);
+            console.log('PREPEND!!!!!!!!!!!!');
         }
     });
 
-    App.cable.subscriptions.create('AnswersCommentChannel', {
-        connected: function() {
-            console.log('Connected - answer comments');
-            this.perform('follow');
-        },
-
-        received: function(data) {
-            $('.comments_answer_' + data.answer_id).append(data.body)
-        }
-    });
+    // App.cable.subscriptions.create('AnswersCommentChannel', {
+    //     connected: function() {
+    //         console.log('Connected - answer comments');
+    //         this.perform('follow');
+    //     },
+    //
+    //     received: function(data) {
+    //         $('.comments_answer_' + data.answer_id).append(data.body)
+    //     }
+    // });
 });
