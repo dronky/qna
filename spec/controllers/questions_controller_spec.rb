@@ -79,7 +79,7 @@ RSpec.describe QuestionsController, type: :controller do
       let!(:question) {create(:question)}
 
       it 'tries to delete question' do
-        expect {delete :destroy, params: {id: question}}.to change(Question, :count).by(0)
+        expect {delete :destroy, params: {id: question}}.not_to change(Question, :count)
       end
     end
   end
@@ -91,8 +91,7 @@ RSpec.describe QuestionsController, type: :controller do
       sign_in_user
 
       it 'tries to delete the question' do
-        expect {delete :destroy, params: {id: question2}, format: :js}
-            .not_to change(Question, :count)
+        expect {delete :destroy, params: {id: question2}, format: :js}.not_to change(Question, :count)
       end
     end
   end

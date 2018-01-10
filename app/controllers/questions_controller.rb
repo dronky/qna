@@ -26,19 +26,19 @@ class QuestionsController < ApplicationController
   end
 
   def update
-#   @question.user = current_user
+    #@question.user = current_user
     @question.update(question_params)
     respond_with @question
   end
 
   def destroy
+    #без этой проверки можно удалять вопросы другого юзера
     if current_user.author_of?(@question)
       respond_with(@question.destroy)
     else
       redirect_to new_user_session_path
     end
   end
-
 
   private
 
