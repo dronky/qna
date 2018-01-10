@@ -1,7 +1,8 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :take_question, only: [:create, :new]
-  before_action :take_answer, only: [:show, :destroy, :mark_as_best]
+  before_action :take_answer, only: [:show, :update, :destroy, :mark_as_best]
+  before_action :find_answer, only: :mark_as_best
   after_action :publish_answer, only: [:create]
   after_action :publish_comment, only: [:add_comment]
   protect_from_forgery except: :mark_as_best
@@ -9,41 +10,43 @@ class AnswersController < ApplicationController
   include VoteFeatures
   include CommentFeature
 
+  respond_to :js, :html
+
   def create
     @answer = @question.answers.new(answer_params)
-    @answer.user = current_user
+    @answer.user=current_user
     @answer.save
   end
 
   def new
-    @answer = @question.answers.new
-    @answer.user = current_user
+    respond_with(@question.answers.new)
   end
 
   def show
   end
 
   def update
-    @answer = Answer.find(params[:id])
-    if !current_user.author_of?(@answer)
-      redirect_to new_user_session_path
-    else
+    if current_user.author_of?(@answer)
       @answer.update(answer_params)
+      respond_with(@answer)
+    else
+      redirect_to new_user_session_path
     end
   end
 
   def destroy
-    if current_user.author_of?(@answer)
-      @answer.destroy
-    end
+    respond_with(@answer.destroy) if current_user.author_of?(@answer)
   end
 
   def mark_as_best
-    @answer = Answer.find(params[:id])
-    @answer.best_answer_flag
+    respond_with(@answer.best_answer_flag)
   end
 
   private
+
+  def find_answer
+    @answer = Answer.find(params[:id])
+  end
 
   def take_answer
     @answer = current_user.answers.find_by(id: params[:id])
