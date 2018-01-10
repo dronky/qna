@@ -3,42 +3,37 @@ class QuestionsController < ApplicationController
   before_action :take_question, only: [:show, :destroy, :update]
   after_action :publish_question, only: [:create]
   after_action :publish_comment, only: [:add_comment]
+  before_action :build_answer, only: :show
 
   include VoteFeatures
   include CommentFeature
 
   def index
-    @questions = Question.all
+    respond_with(@questions = Question.all)
   end
 
   def new
-    @question = Question.new
-    @question.attachments.build
+    respond_with (@question = Question.new)
   end
 
   def create
-    @question = current_user.questions.new(question_params)
-    if @question.save
-      redirect_to questions_path
-    else
-      render :index
-    end
+    respond_with (@question = current_user.questions.create(question_params))
   end
 
   def show
-    @answer = @question.answers.create(question: @question, user: current_user)
     @answer.attachments.build
+    respond_with @question
   end
 
   def update
-    @question.user = current_user
+#   @question.user = current_user
     @question.update(question_params)
+    respond_with @question
   end
 
   def destroy
     if current_user.author_of?(@question)
-      @question.destroy
-      redirect_to questions_path
+      respond_with(@question.destroy)
     else
       redirect_to new_user_session_path
     end
@@ -46,6 +41,14 @@ class QuestionsController < ApplicationController
 
 
   private
+
+  def flash_interpolation_options
+    {resource_name: 'new question', time: @question.created_at, user: current_user.email}
+  end
+
+  def build_answer
+    @answer = @question.answers.build
+  end
 
   def take_question
     @question = Question.find(params[:id])

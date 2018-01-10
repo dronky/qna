@@ -256,6 +256,7 @@ DEPENDENCIES
   rails (~> 5.1.4)
   rails-controller-testing
   remotipart
+  responders (~> 2.0)
   rspec-rails
   sass-rails (~> 5.0)
   shoulda-matchers
@@ -268,4 +269,4 @@ DEPENDENCIES
   web-console (>= 3.3.0)
 
 BUNDLED WITH
-   1.16.0.pre.3
+   1.16.1

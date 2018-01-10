@@ -41,9 +41,9 @@ RSpec.describe QuestionsController, type: :controller do
         expect {post :create, params: {question: attributes_for(:question)}}.to change(Question, :count).by(1)
       end
 
-      it 'create rendering' do
+      it 'redirects to show view' do
         post :create, params: {question: attributes_for(:question)}
-        expect(response).to redirect_to questions_path
+        expect(response).to redirect_to question_path(assigns(:question))
       end
     end
 
@@ -52,22 +52,9 @@ RSpec.describe QuestionsController, type: :controller do
         expect {post :create, params: {question: attributes_for(:invalid_question)}}.to_not change(Question, :count)
       end
 
-      it 'create rendering' do
+      it 're-renders new view' do
         post :create, params: {question: attributes_for(:invalid_question)}
-        expect(response).to render_template :index
-      end
-    end
-  end
-
-  describe 'GET #new' do
-
-    sign_in_user
-
-    before { get :new }
-
-    context 'Add attachment to the question' do
-      it 'builds new attachment for question' do
-        expect(assigns(:question).attachments.first).to be_a_new(Attachment)
+        expect(response).to render_template :new
       end
     end
   end
@@ -94,11 +81,6 @@ RSpec.describe QuestionsController, type: :controller do
       it 'tries to delete question' do
         expect {delete :destroy, params: {id: question}}.to change(Question, :count).by(0)
       end
-
-      it 'redirects to questions url' do
-        delete :destroy, params: {id: question}
-        expect(response).to redirect_to new_user_session_path
-      end
     end
   end
 
@@ -117,14 +99,12 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'PATCH #update' do
     sign_in_user
-
-    context 'patch flow' do
-      let!(:question) {create(:question, user: @user)}
-      it 'tries to update the question' do
-        patch :update, params: {id: question, question: attributes_for(:question_edited)}, format: :js #уточнить, зачем тут передавать id
-        question.reload
-        expect(question.body).to eq 'MyText new'
-      end
+    let(:question) {create(:question)}
+    it 'changes question attributes' do
+      patch :update, params: {id: question, question: {title: 'new title', body: 'new body'}}
+      question.reload
+      expect(question.title).to eq 'new title'
+      expect(question.body).to eq 'new body'
     end
   end
 end

@@ -3,7 +3,7 @@ h1 Create new Question here
   = f.text_field :title, placeholder: 'Title'
   = f.text_field :body, placeholder: 'Body of question'
   p
-    = f.fields_for :attachments do |a|
+    = f.fields_for :attachments, @question.attachments.build do |a|
       = render 'questions/attachment_fields', f: a
       p
         = link_to_add_association 'add file', f, :attachments
