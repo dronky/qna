@@ -1,8 +1,11 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :take_question, only: [:show, :destroy, :update]
+  after_action :publish_question, only: [:create]
+  after_action :publish_comment, only: [:add_comment]
 
   include VoteFeatures
+  include CommentFeature
 
   def index
     @questions = Question.all
@@ -41,6 +44,7 @@ class QuestionsController < ApplicationController
     end
   end
 
+
   private
 
   def take_question
@@ -48,6 +52,28 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, attachments_attributes: [:file, :id, :_destroy])
+    params.require(:question).permit(:title, :body, :comment, attachments_attributes: [:file, :id, :_destroy])
+  end
+
+  def publish_question
+    return if @question.errors.any?
+    ActionCable.server.broadcast(
+        'questions',
+        ApplicationController.render(
+            partial: 'questions/question',
+            locals: {question: @question, current_user: @question.user})
+    )
+  end
+
+  def publish_comment
+    @question = Question.find(params[:id])
+    ActionCable.server.broadcast(
+        "comments_question_#{@question.id}",
+        {question_id: @question.id, type: 'question', body:
+            ApplicationController.render(
+                partial: 'questions/comment_for_websocket',
+                locals: {comment: @question.comments.last})
+        })
+
   end
 end

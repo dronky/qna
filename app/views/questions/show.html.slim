@@ -1,5 +1,5 @@
 h1 Question details
-#question_details
+.question_details data-id="#{@question.id}"
   #question_title
     p
       | Title:
@@ -59,3 +59,5 @@ h1 Question details
 
 #list_of_answers
   = render 'questions/list_of_answers'
+.comments_section
+  = render 'questions/comments'

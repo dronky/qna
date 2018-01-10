@@ -1,0 +1,57 @@
+- if answer.errors.any?
+  - answer.errors.full_messages.each do |m|
+    = m
+tr id=("answer_el-#{answer.id}")
+  td = answer.id
+  td
+    span id=("answer_el_body-#{answer.id}")
+      = answer.body
+  td
+    - if current_user.author_of?(answer)
+      = link_to 'Delete', answer_path(answer), method: :delete, data: {confirm: 'Are you sure?', remote: true}
+    - else
+      | Not permitted
+  td
+    - if current_user.author_of?(answer)
+      = link_to 'Update', '#', class: "editAnswerButton", data: {answer_id: answer.id}
+      = render 'questions/edit_answer', answer: answer
+    - else
+      | Not permitted
+  td
+    - if current_user.author_of?(answer)
+      - if answer.best_answer.equal?(false)
+        = link_to 'Mark as a best answer', answer_mark_as_best_path(answer_id: answer.id, id: answer), method: :patch, remote: true, id: "answer_#{answer.id}"
+      - else
+        | This is answer best answer
+    - else
+      | Not permitted
+  td
+    - if answer.attachments.empty?
+      | No attachments yet
+    - else
+      ul
+        - answer.attachments.each do |att|
+          li
+            = link_to att.file.identifier, att.file.url
+  td
+    p id=("answer_vote-#{answer.id}")
+      | Result:
+      span = answer.get_vote
+    p
+      = link_to '+',
+              answer_plus_vote_path(answer_id: answer.id, id: answer),
+              method: :post,
+              remote: true,
+              data: {answer_id: answer.id, type: :json, vote: answer.get_vote},
+              class: 'vote_answer'
+    p
+      = link_to '-',
+              answer_minus_vote_path(answer_id: answer.id, id: answer),
+              remote: true,
+              method: :post,
+              data: {answer_id: answer.id, type: :json, vote: answer.get_vote},
+              class: 'vote_answer'
+  td
+    = link_to 'Reset', reset_votes_answer_path(answer_id: answer.id, id: answer), method: :post, remote: true
+  td
+    = render 'questions/answer_comments', answer: answer

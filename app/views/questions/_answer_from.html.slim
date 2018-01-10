@@ -1,5 +1,5 @@
 h4 Write your answer here
-= form_with model: [@question, @answer], method: :post do |f|
+= form_with model: [@question, @answer], method: :post, data: {question_id: @question.id} do |f|
   - if @answer.errors.any?
     -  @answer.errors.full_messages.each do |m|
       = m

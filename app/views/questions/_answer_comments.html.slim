@@ -1,0 +1,11 @@
+h4 Leave your comment for answer here
+= form_with url: add_comment_answer_path(answer.question.id, answer), class: 'send_comment_form', method: :post, data: {answer_id: answer.id} do |f|
+  = f.label :comment
+  = f.text_field :comment
+  = f.hidden_field :question_id, value: answer.question.id
+  = f.hidden_field :answer_id, value: answer.id
+  = f.submit "Comment"
+ul
+  .comment_answer_details data-id="#{answer.id}" data-type="answer"
+    - answer.comments.reverse.each do |comment|
+      li = comment.body

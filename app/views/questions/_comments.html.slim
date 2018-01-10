@@ -1,0 +1,9 @@
+h2 Leave your comment for question here
+= form_with url: add_comment_question_path(@question), class: 'send_comment_form', method: :post do |f|
+  = f.label :comment
+  = f.text_field :comment
+  = f.submit "Comment"
+ul
+  .comment_question_details data-id="#{@question.id}" data-type="question"
+    - @question.comments.reverse.each do |comment|
+      li = comment.body
