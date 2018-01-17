@@ -33,6 +33,7 @@ RSpec.configure do |config|
   config.include Devise::TestHelpers, type: :controller
   config.extend ControllerMacros, type: :controller
   config.include FeatureMacros, type: :feature
+  config.include(OmniauthMacros)
   Capybara.javascript_driver = :webkit
   Capybara.server = :puma
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
@@ -87,3 +88,5 @@ Shoulda::Matchers.configure do |config|
     with.library :rails
   end
 end
+
+OmniAuth.config.test_mode = true
