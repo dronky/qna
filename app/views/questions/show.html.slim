@@ -1,5 +1,7 @@
 h1 Question details
-.question_details data-id="#{@question.id}"
+
+.question_content
+  .question_details data-id="#{@question.id}"
   #question_title
     p
       | Title:
@@ -18,44 +20,46 @@ h1 Question details
           - @question.attachments.each do |att|
             li
               = link_to att.file.identifier, att.file.url
-- if !user_signed_in?
-  p id=("question_vote-#{@question.id}")
+
+  - if !user_signed_in?
+    p id=("question_vote-#{@question.id}")
     | Rating:
     span = @question.get_vote
-- elsif @question.votes.where(user_id: current_user.id, clicked: true).exists?
-  p id=("question_vote-#{@question.id}")
-    | Rating:
-    span = @question.get_vote
-- else
-  div id=("question_vote-#{@question.id}")
-    | Rating:
-    span = @question.get_vote
+  - elsif @question.votes.where(user_id: current_user.id, clicked: true).exists?
+    p id=("question_vote-#{@question.id}")
+      | Rating:
+      span = @question.get_vote
+  - else
+    div id=("question_vote-#{@question.id}")
+      | Rating:
+      span = @question.get_vote
+      p
+        = link_to '+',
+                plus_vote_question_path(@question),
+                remote: true,
+                data: {type: :json, vote: @question.get_vote},
+                class: 'vote_question'
+      p
+        = link_to '-',
+                minus_vote_question_path(question_id: @question.id, id: @question),
+                remote: true,
+                data: {answer_id: @question.id, type: :json, vote: @question.get_vote - 1},
+                class: 'vote_question'
+.question_content
+  - if user_signed_in?
+    div
+      = link_to 'Edit', '#', id: "editButton"
+      #edit_form
+        = render 'questions/edit_question'
+      p
+        = link_to 'Answer on it', '#', id: "answerButton"
+      #comment_form
+        = render 'questions/answer_from'
+  - else
     p
-      = link_to '+',
-              plus_vote_question_path(@question),
-              remote: true,
-              data: {type: :json, vote: @question.get_vote},
-              class: 'vote_question'
-    p
-      = link_to '-',
-              minus_vote_question_path(question_id: @question.id, id: @question),
-              remote: true,
-              data: {answer_id: @question.id, type: :json, vote: @question.get_vote - 1},
-              class: 'vote_question'
-- if user_signed_in?
-  div
-    = link_to 'Edit', '#', id: "editButton"
-    #edit_form
-      = render 'questions/edit_question'
-    p
-    = link_to 'Answer on it', '#', id: "answerButton"
-    #comment_form
-      = render 'questions/answer_from'
-- else
-  p
-    | Please Sign Up or Sign In to be able to leave an answer.
-  h2
-    = link_to "Sign up", new_user_registration_path
+      | Please Sign Up or Sign In to be able to leave an answer.
+    h2
+      = link_to "Sign up", new_user_registration_path
 
 #list_of_answers
   = render 'questions/list_of_answers'

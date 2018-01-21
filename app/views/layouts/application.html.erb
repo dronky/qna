@@ -9,19 +9,21 @@
 </head>
 
 <body>
-<div id="login_link">
-  <ul>
-    <% if user_signed_in? %>
-        <li>
-          <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
-        </li>
-    <% else %>
-        <li>
-          <%= link_to('Login', new_user_session_path)  %>
-        </li>
-    <% end %>
-  </ul>
-</div>
+<nav class="navbar navbar-light bg-light" style="background-color: #e3f2fd;">
+  <a class="navbar-brand" href="/">Questions</a>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav navbar-brand">
+      <div id="login_link" style="display: inline">
+          <% if user_signed_in? %>
+            <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
+          <% else %>
+            <%= link_to('Login', new_user_session_path) %>
+          <% end %>
+      </div>
+    </div>
+  </div>
+</nav>
+
 <p class="notice"><%= notice %></p>
 <p class="alert"><%= alert %></p>
 <%= yield %>
