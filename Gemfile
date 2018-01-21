@@ -54,6 +54,7 @@ group :development, :test do
   gem 'carrierwave'
   gem 'remotipart'
   gem "cocoon"
+  gem 'capybara-email'
 end
 
 group :development do
