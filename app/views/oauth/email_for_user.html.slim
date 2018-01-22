@@ -6,9 +6,5 @@ h1 Enter your email to finish registration
   = label_tag :email
   = text_field_tag :email
 
-.field
-  = hidden_field_tag :provider, @oauth_data.provider
-  = hidden_field_tag :uid, @oauth_data.uid.to_s
-
 .actions
   = submit_tag 'Send'

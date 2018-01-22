@@ -9,7 +9,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def register
-    User.register_for_oauth(params[:email], params[:provider], params[:uid])
+    User.register_for_oauth(params[:email], session[:provider], session[:uid])
     redirect_to new_user_session_path, notice: 'You have to confirm your email address before continuing.'
   end
 
@@ -21,10 +21,14 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       sign_in_and_redirect @user, event: :authentication
       set_flash_message(:notice, :success, kind: provider, email: @user.email) if is_navigational_format?
     else
-      # session["devise.#{provider.downcase}_data"] = request.env["omniauth.auth"].except("extra")
-      # redirect_to new_user_registration_url
-      @oauth_data = request.env["omniauth.auth"].except("extra")
+      fill_provider_data
       render 'oauth/email_for_user'
     end
+  end
+
+  def fill_provider_data
+    provider_data = request.env["omniauth.auth"].except("extra")
+    session[:provider] = provider_data[:provider]
+    session[:uid] = provider_data[:uid]
   end
 end
