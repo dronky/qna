@@ -10,6 +10,8 @@ class AnswersController < ApplicationController
   include VoteFeatures
   include CommentFeature
 
+  authorize_resource
+
   respond_to :js, :html
 
   def create
@@ -26,16 +28,12 @@ class AnswersController < ApplicationController
   end
 
   def update
-    if current_user.author_of?(@answer)
       @answer.update(answer_params)
       respond_with(@answer)
-    else
-      redirect_to new_user_session_path
-    end
   end
 
   def destroy
-    respond_with(@answer.destroy) if current_user.author_of?(@answer)
+    respond_with(@answer.destroy)
   end
 
   def mark_as_best

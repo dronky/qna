@@ -34,12 +34,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    #без этой проверки можно удалять вопросы другого юзера
-    if current_user.author_of?(@question)
-      respond_with(@question.destroy)
-    else
-      redirect_to new_user_session_path
-    end
+    respond_with(@question.destroy)
   end
 
   private

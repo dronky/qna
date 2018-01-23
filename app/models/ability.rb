@@ -25,5 +25,6 @@ class Ability
     guest_abilities
     can :create, [Question, Answer, Comment]
     can :update, [Question, Answer], user: user
+
   end
 end
