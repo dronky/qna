@@ -21,4 +21,5 @@ table
           - else
             | Not permitted
 h3
-  = link_to 'Create question', new_question_path
+  -if can?(:create, Question)
+    = link_to 'Create question', new_question_path
