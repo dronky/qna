@@ -16,7 +16,7 @@ table
         td
           = link_to 'Show', question_path(c.id)
         td
-          - if user_signed_in?
+          - if can? :destroy, c
             = link_to 'Delete', question_path(c), method: :delete, data: { confirm: 'Are you sure?' }
           - else
             | Not permitted
