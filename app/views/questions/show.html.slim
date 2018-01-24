@@ -38,13 +38,15 @@ h1 Question details
                 plus_vote_question_path(@question),
                 remote: true,
                 data: {type: :json, vote: @question.get_vote},
-                class: 'vote_question'
+                class: 'vote_question',
+                method: :post
       p
         = link_to '-',
                 minus_vote_question_path(question_id: @question.id, id: @question),
                 remote: true,
                 data: {answer_id: @question.id, type: :json, vote: @question.get_vote - 1},
-                class: 'vote_question'
+                class: 'vote_question',
+                method: :post
 .question_content
   - if user_signed_in?
     div

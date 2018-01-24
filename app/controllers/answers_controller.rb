@@ -43,7 +43,7 @@ class AnswersController < ApplicationController
   private
 
   def find_answer
-    @answer = Answer.find(params[:id])
+    @answer = Answer.find(params[:answer_id])
   end
 
   def take_answer

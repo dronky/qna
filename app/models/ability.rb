@@ -22,9 +22,14 @@ class Ability
   end
 
   def user_abilities
+    alias_action :plus_vote, :minus_vote, :to => :vote
     guest_abilities
     can :create, [Question, Answer, Comment]
-    can :update, [Question, Answer], user: user
-
+    can [:update, :destroy], [Question, Answer], user_id: user.id
+    can [:vote], [Question, Answer]
+    cannot :vote, [Question, Answer], user_id: user.id
+    can :mark_as_best, Answer do |a|
+      a.question.user.id == user.id
+    end
   end
 end
