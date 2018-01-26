@@ -8,7 +8,8 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resource :profiles do
+      resources :profiles, only: :index do
+        #on: :collection means .../me without id
         get :me, on: :collection
       end
     end

@@ -20,6 +20,10 @@ class User < ApplicationRecord
     user.authorizations.create(provider: provider, uid: uid)
   end
 
+  def self.all_except(user)
+    where.not(id: user)
+  end
+
   def self.find_for_oauth(auth)
     authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first
     return authorization.user if authorization
