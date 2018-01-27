@@ -57,7 +57,7 @@ describe 'Profile API' do
         end
 
         it 'returns users' do
-          expect(response.body).to be_json_eql(users.to_json).at_path("profiles")
+          expect(response.body).to be_json_eql(users.to_json)
         end
 
         it 'does not returns me' do
@@ -67,7 +67,7 @@ describe 'Profile API' do
         %w(id email created_at updated_at admin).each do |attr|
           it "contains #{attr}" do
             users.each_with_index do |user, id|
-              expect(response.body).to be_json_eql(user.send(attr.to_sym).to_json).at_path("profiles/#{id}/#{attr}")
+              expect(response.body).to be_json_eql(user.send(attr.to_sym).to_json).at_path("#{id}/#{attr}")
             end
           end
         end
