@@ -12,7 +12,9 @@ Rails.application.routes.draw do
         #on: :collection means .../me without id
         get :me, on: :collection
       end
-      resources :questions
+      resources :questions do
+        resources :answers, shallow: true
+      end
     end
   end
 

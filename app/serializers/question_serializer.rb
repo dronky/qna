@@ -5,5 +5,4 @@ class QuestionSerializer < ActiveModel::Serializer
   def attachments
     object.attachments.map { |a| { 'url' => a.file.url } }
   end
-
 end
