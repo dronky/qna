@@ -10,6 +10,11 @@ class Api::V1::QuestionsController < Api::V1::BaseController
     respond_with @question
   end
 
+  def create
+    @question = current_resource_owner.questions.create(question_params)
+    respond_with @question
+  end
+
   private
 
   def question_params
