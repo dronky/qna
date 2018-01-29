@@ -16,6 +16,7 @@ describe 'Profile API' do
       let (:me) {create(:user)}
       let(:access_token) {create(:access_token, resource_owner_id: me.id)}
       before {get '/api/v1/profiles/me', params: {format: :json, access_token: access_token.token}}
+
       it 'returns 200 status' do
         expect(response).to be_success
       end
