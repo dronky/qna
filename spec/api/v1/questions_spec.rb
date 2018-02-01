@@ -73,26 +73,16 @@ describe 'Question API' do
       get '/api/v1/questions/0', params: {format: :json}.merge(options)
     end
   end
+
   describe 'POST #create' do
     it_behaves_like 'API Authenticable'
-    
-    context 'autorizred' do
-      let(:access_token) {create(:access_token)}
-      it 'creates a valid object' do
-        expect {post '/api/v1/questions', params: {
-            format: :json, access_token: access_token.token,
-            question: attributes_for(:question)}}.to change(Question, :count).by(1)
-      end
-      it 'dont create invalid object' do
-        expect {post '/api/v1/questions', params: {
-            format: :json, access_token: access_token.token,
-            question: attributes_for(:invalid_question)}}.to_not change(Question, :count)
-      end
-    end
+    it_behaves_like 'API Creatable'
+
+    let(:api_path){'/api/v1/questions'}
+    let(:object_class){Question}
 
     def do_request(options = {})
       post '/api/v1/questions', params: {format: :json}.merge(options)
     end
-
   end
 end
