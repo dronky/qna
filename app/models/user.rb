@@ -44,7 +44,7 @@ class User < ApplicationRecord
   def self.send_daily_digest
     # load by 1000 objects
     find_each.each do |user|
-      DailyMailer.digest(user).deliver
+      DailyMailer.digest(user).deliver_later
     end
   end
 
