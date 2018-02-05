@@ -13,4 +13,8 @@ class Question < ApplicationRecord
 
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
 
+  def self.latest
+    where("created_at > ?", 1.day.ago)
+  end
+
 end

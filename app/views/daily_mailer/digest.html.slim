@@ -1,2 +1,5 @@
-h1 Daily#digest
-p = @greeting + ", find me in app/views/daily_mailer/digest.html.slim"
+h1 List of newest questions
+ul
+  - @questions.each do |question|
+    li
+      = link_to question.title, question
