@@ -8,6 +8,8 @@ class Answer < ApplicationRecord
   has_many :votes, as: :votable
   has_many :comments, as: :commentable
 
+  after_create :send_notification
+
   validates :body, presence: true
 
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
@@ -17,6 +19,10 @@ class Answer < ApplicationRecord
   }
 
   scope :best_answer_first, -> {best_answer ? order(best_answer: :desc) : order(best_answer: :asc)}
+
+  def send_notification
+    QuestionAnswerJob.perform_later(self.question)
+  end
 
   def best_answer_flag
     transaction do
