@@ -4,7 +4,6 @@ class QuestionsController < ApplicationController
   after_action :publish_question, only: [:create]
   after_action :publish_comment, only: [:add_comment]
   before_action :build_answer, only: :show
-  after_action :subscribe_question, only: :create
 
   include VoteFeatures
   include CommentFeature
@@ -21,6 +20,7 @@ class QuestionsController < ApplicationController
 
   def create
     respond_with (@question = current_user.questions.create(question_params))
+    current_user.subscribe_question(@question)
   end
 
   def show
