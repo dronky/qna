@@ -4,6 +4,7 @@ class QuestionsController < ApplicationController
   after_action :publish_question, only: [:create]
   after_action :publish_comment, only: [:add_comment]
   before_action :build_answer, only: :show
+  after_action :subscribe_question, only: :create
 
   include VoteFeatures
   include CommentFeature
@@ -38,6 +39,10 @@ class QuestionsController < ApplicationController
   end
 
   private
+
+  def subscribe_question
+    current_user.subscribe_question(@question)
+  end
 
   def flash_interpolation_options
     {resource_name: 'new question', time: @question.created_at, user: current_user.email}

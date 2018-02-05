@@ -7,6 +7,7 @@ class Question < ApplicationRecord
   has_many :attachments, as: :attachmentable
   has_many :votes, as: :votable
   has_many :comments, as: :commentable
+  has_many :subscriptions
 
   validates :title, :body, presence: true
 
