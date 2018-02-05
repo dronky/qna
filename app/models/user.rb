@@ -14,6 +14,11 @@ class User < ApplicationRecord
     self.subscriptions.create(question: question)
   end
 
+  def unsubscribe_question(question)
+    subscription = self.subscriptions.where(question: question)
+    Subscription.delete(subscription)
+  end
+
   def author_of?(answer)
     return false if answer.blank?
     id == answer.user_id

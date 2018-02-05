@@ -49,6 +49,11 @@ h1 Question details
                 method: :post
 .question_content
   - if user_signed_in?
+    - if current_user.subscriptions.where(question: @question).empty?
+      div
+        = link_to 'Subscribe', subscribe_question_path, method: :post
+    - else
+        = link_to 'Unsubscribe', unsubscribe_question_path, method: :post
     div
       = link_to 'Edit', '#', id: "editButton"
       #edit_form

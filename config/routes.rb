@@ -38,6 +38,8 @@ Rails.application.routes.draw do
     post :plus_vote, on: :member
     post :minus_vote, on: :member
     post :add_comment, on: :member
+    post :subscribe, on: :member
+    post :unsubscribe, on: :member
   end
 
   mount ActionCable.server => '/cable'

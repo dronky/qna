@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :take_question, only: [:show, :destroy, :update]
+  before_action :take_question, only: [:show, :destroy, :update, :subscribe, :unsubscribe]
   after_action :publish_question, only: [:create]
   after_action :publish_comment, only: [:add_comment]
   before_action :build_answer, only: :show
@@ -28,6 +28,16 @@ class QuestionsController < ApplicationController
     respond_with @question
   end
 
+  def subscribe
+    current_user.subscribe_question(@question)
+    redirect_to @question
+  end
+
+  def unsubscribe
+    current_user.unsubscribe_question(@question)
+    redirect_to @question
+  end
+
   def update
     #@question.user = current_user
     @question.update(question_params)
@@ -39,10 +49,6 @@ class QuestionsController < ApplicationController
   end
 
   private
-
-  def subscribe_question
-    current_user.subscribe_question(@question)
-  end
 
   def flash_interpolation_options
     {resource_name: 'new question', time: @question.created_at, user: current_user.email}
