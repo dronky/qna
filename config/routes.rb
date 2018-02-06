@@ -27,7 +27,7 @@ Rails.application.routes.draw do
   root 'questions#index'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  resources :subscriptions
+  resources :subscriptions, only: [:create, :destroy]
 
   resources :questions do
     resources :answers, shallow: true do
