@@ -3,22 +3,12 @@
 This README would normally document whatever steps are necessary to get the
 application up and running.
 
-Things you may want to cover:
+Sidekiq start: `sidekiq -q default -q mailers`
 
-* Ruby version
 
-* System dependencies
+* Ruby version: ruby-2.4.1
 
-* Configuration
+* Database: postgres
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* Services: 
+  * job queue: sidekiq, ActiveJob
