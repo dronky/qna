@@ -25,10 +25,10 @@ class Ability
     alias_action :plus_vote, :minus_vote, :to => :vote
     guest_abilities
     can :me, User
-    can :create, [Question, Answer, Comment]
+    can :create, [Question, Answer, Comment, Subscription]
     can [:update, :destroy], [Question, Answer], user_id: user.id
     can [:vote], [Question, Answer]
-    can [:subscribe, :unsubscribe], Question
+    can [:destroy], Subscription, user_id: user.id
     cannot :vote, [Question, Answer], user_id: user.id
     can :mark_as_best, Answer do |a|
       a.question.user_id == user.id

@@ -10,3 +10,8 @@ en:
       destroy:
         notice: '%{resource_name} was successfully destroyed.'
         alert: '%{resource_name} could not be destroyed.'
+    subscriptions:
+      create:
+        notice: 'You have successfully subscribed this question'
+      destroy:
+        notice: 'You have successfully unsubscribed from this question'
