@@ -21,7 +21,7 @@ class Answer < ApplicationRecord
   scope :best_answer_first, -> {best_answer ? order(best_answer: :desc) : order(best_answer: :asc)}
 
   def send_notification
-    QuestionAnswerJob.perform_later(self.question)
+    QuestionAnswerJob.perform_later(question)
   end
 
   def best_answer_flag

@@ -16,7 +16,7 @@ class Question < ApplicationRecord
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
 
   def subscribe
-    subscriptions.create(user: self.user)
+    subscriptions.create(user: user)
   end
 
   def self.latest
