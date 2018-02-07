@@ -72,4 +72,16 @@ RSpec.describe User, type: :model do
       User.send_daily_digest
     end
   end
+
+  describe '#subscribed?' do
+    let(:user){create(:user)}
+    let(:question){create(:question,user: user)}
+    let(:another_question){create(:question)}
+    it 'should return true if user just created question' do
+      expect(user.subscribed?(question)).to eq true
+    end
+    it 'should return false if its another question' do
+      expect(user.subscribed?(another_question)).to eq false
+    end
+  end
 end
