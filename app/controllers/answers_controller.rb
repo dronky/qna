@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :take_question, only: [:create, :new]
+  before_action :take_question, only: [:create, :new, :mark_as_best]
   before_action :take_answer, only: [:show, :update, :destroy, :mark_as_best]
   before_action :find_answer, only: :mark_as_best
   after_action :publish_answer, only: [:create]

@@ -41,7 +41,6 @@ RSpec.describe AnswersController, type: :controller do
       before {allow(controller).to receive(:current_user).and_return(user)}
       let!(:answer) {create(:answer, question: question, user: user)}
 
-
       it 'tries to delete answer' do
         expect {delete :destroy, params: {question_id: question, id: answer}, format: :js}
             .to change(Answer, :count).by(-1)
@@ -116,14 +115,16 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
-  describe 'GET #mark_as_best' do
+  describe 'PATCH #mark_as_best' do
     sign_in_user
-
+    before {allow(controller).to receive(:current_user).and_return(user)}
     context 'making answer as a best for question' do
-      let(:answer) {create(:answer, question: question, user: user)}
+      let!(:question) {create(:question, user: user)}
+      let!(:user_2) {create(:user)}
+      let!(:answer) {create(:answer, question: question, user: user_2)}
 
       it 'tries to mark the answer as a best' do
-        get :mark_as_best, params: {id: answer.id, answer_id: answer.id, question_id: question.id}, format: :js
+        patch :mark_as_best, params: {id: answer.id, answer_id: answer.id, question_id: question.id}, format: :js
         answer.reload
         expect(answer.best_answer).to eq true
       end
