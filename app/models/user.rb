@@ -15,6 +15,14 @@ class User < ApplicationRecord
     id == answer.user_id
   end
 
+  def subscribed?(question)
+    subscriptions.where(question: question).any?
+  end
+
+  def question_subscription(question)
+    subscriptions.where(question: question).first
+  end
+
   def self.register_for_oauth(email, provider, uid)
     password = Devise.friendly_token[0, 20]
     user = User.create!(email: email, password: password, password_confirmation: password)

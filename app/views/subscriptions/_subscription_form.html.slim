@@ -1,12 +1,12 @@
-- if current_user.subscriptions.where(question: question).empty?
-   div
-     = link_to 'Subscribe', subscriptions_path(question: question),
-             remote: true,
-             method: :post,
-             data: {type: 'script'}
-- else
-   = link_to 'Unsubscribe',
-           current_user.subscriptions.where(question: question).first,
-           remote: true,
-           method: :delete,
-           data: {type: 'script'}
+div
+  - if current_user.subscribed?(question)
+    = link_to 'Unsubscribe',
+            current_user.question_subscription(question),
+            remote: true,
+            method: :delete,
+            data: {type: 'script'}
+  - else
+    = link_to 'Subscribe', subscriptions_path(question: question),
+            remote: true,
+            method: :post,
+            data: {type: 'script'}
