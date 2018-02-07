@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :take_question, only: [:show, :destroy, :update, :subscribe, :unsubscribe]
+  before_action :take_question, only: [:show, :destroy, :update]
   after_action :publish_question, only: [:create]
   after_action :publish_comment, only: [:add_comment]
   before_action :build_answer, only: :show
@@ -20,22 +20,11 @@ class QuestionsController < ApplicationController
 
   def create
     respond_with (@question = current_user.questions.create(question_params))
-    current_user.subscribe_question(@question)
   end
 
   def show
     @answer.attachments.build
     respond_with @question
-  end
-
-  def subscribe
-    current_user.subscribe_question(@question)
-    redirect_to @question
-  end
-
-  def unsubscribe
-    current_user.unsubscribe_question(@question)
-    redirect_to @question
   end
 
   def update

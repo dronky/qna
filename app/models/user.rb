@@ -8,16 +8,7 @@ class User < ApplicationRecord
   has_many :questions
   has_many :answers
   has_many :authorizations
-  has_many :subscriptions
-
-  def subscribe_question(question)
-    self.subscriptions.create(question: question)
-  end
-
-  def unsubscribe_question(question)
-    subscription = self.subscriptions.where(question: question)
-    Subscription.delete(subscription)
-  end
+  has_many :subscriptions, dependent: :destroy
 
   def author_of?(answer)
     return false if answer.blank?
