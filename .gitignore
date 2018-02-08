@@ -19,5 +19,7 @@
 .byebug_history
 config/database.yml
 .idea
+config/*.sphinx.conf
+db/sphinx
 
 /public/uploads
