@@ -10,6 +10,7 @@ class Question < ApplicationRecord
   has_many :subscriptions, dependent: :destroy
 
   validates :title, :body, presence: true
+  after_save ThinkingSphinx::RealTime.callback_for(:question)
 
   after_create :subscribe
 

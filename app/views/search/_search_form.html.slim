@@ -1,0 +1,10 @@
+.search-form
+  = form_with(url: search_path(page: 1), method: :get, local: true) do |f|
+    = search_field_tag :query
+    = submit_tag("Search", name: nil, class: 'btn btn-info')
+    br
+      label Scope:
+      = f.select :resource, [['All',ThinkingSphinx],['Question',Question],['Answer',Answer],['User',User]], {selected: 'All'}
+    br
+      label Results per page:
+      = f.select :limit, [20,40,60,80,100], {selected: 'nolimit'}
