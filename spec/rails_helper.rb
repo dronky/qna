@@ -85,6 +85,15 @@ RSpec.configure do |config|
   config.after(:each) do
     DatabaseCleaner.clean
   end
+
+  config.append_after(:each) do
+    DatabaseCleaner.clean
+  end
+
+  config.before(:each, :sphinx => true) do
+    # For tests tagged with Sphinx, use deletion (or truncation)
+    DatabaseCleaner.strategy = :deletion
+  end
 end
 
 Shoulda::Matchers.configure do |config|
