@@ -25,6 +25,10 @@ class Answer < ApplicationRecord
     QuestionAnswerJob.perform_later(question)
   end
 
+  def self.get_question(answer_id)
+    Answer.find(answer_id).question
+  end
+
   def best_answer_flag
     transaction do
       question.answers.update_all(best_answer: false)

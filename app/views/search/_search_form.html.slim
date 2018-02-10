@@ -4,7 +4,7 @@
     = submit_tag("Search", name: nil, class: 'btn btn-info')
     br
       label Scope:
-      = f.select :resource, [['All',ThinkingSphinx],['Question',Question],['Answer',Answer],['User',User]], {selected: 'All'}
+      = f.select :resource, [['All',ThinkingSphinx],['Question',Question],['Answer',Answer],['Comment',Comment],['User',User]], {selected: 'All'}
     br
       label Results per page:
       = f.select :limit, [20,40,60,80,100], {selected: 'nolimit'}
