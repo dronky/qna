@@ -4,7 +4,9 @@ class SearchController < ApplicationController
   def search
     resource = params[:resource].constantize
     @results = resource.search params[:query], per_page: params[:limit], page: params[:page]
-    # redirect_to search_path
+    if @results.empty?
+      redirect_to root_path
+    end
   end
 
   private

@@ -9,7 +9,7 @@ class Answer < ApplicationRecord
   has_many :comments, as: :commentable
 
   after_create :send_notification
-  # after_save ThinkingSphinx::RealTime.callback_for(:answer)
+  after_save ThinkingSphinx::RealTime.callback_for(:answer)
 
   validates :body, presence: true
 

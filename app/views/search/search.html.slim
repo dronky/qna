@@ -1,4 +1,4 @@
 - @results.each do |res|
-  = render "search/#{res.class.to_s.downcase}s_list",res.class.to_s.downcase.to_sym => res
+  = render "search/#{res.class.to_s.downcase}",res.class.to_s.downcase.to_sym => res
 br
-/ - will_paginate @results
+= will_paginate @results

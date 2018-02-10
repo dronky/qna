@@ -9,7 +9,7 @@ class User < ApplicationRecord
   has_many :answers
   has_many :authorizations
   has_many :subscriptions, dependent: :destroy
-  # after_save ThinkingSphinx::RealTime.callback_for(:user)
+  after_save ThinkingSphinx::RealTime.callback_for(:user)
 
   def author_of?(answer)
     return false if answer.blank?
