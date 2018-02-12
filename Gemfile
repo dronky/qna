@@ -24,7 +24,7 @@ gem 'omniauth-twitter'
 gem 'bootstrap-sass'
 gem 'cancancan'
 gem 'doorkeeper'
-gem 'active_model_serializers'
+gem "active_model_serializers", "~> 0.9.7"
 gem 'oj'
 gem 'oj_mimic_json'
 gem 'sidekiq'
