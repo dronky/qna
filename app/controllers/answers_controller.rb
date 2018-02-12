@@ -73,7 +73,7 @@ class AnswersController < ApplicationController
     return if @answer.errors.any?
     ActionCable.server.broadcast(
         "comments_question_#{@answer.question.id}",
-        {question_id: @answer.question.id, type: 'answer', body:
+        {question_id: @answer.question.id, id: @answer.id, type: 'answer', body:
             ApplicationController.render(
                 partial: 'questions/comment_for_websocket',
                 locals: {comment: @answer.comments.last})
