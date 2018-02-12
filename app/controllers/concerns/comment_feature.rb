@@ -14,6 +14,7 @@ module CommentFeature
   def add_comment
     @commentable.add_comment(params[:comment])
     # render json: @commentable.as_json(methods: :get_comment)
+    head :ok
   end
 
   private
