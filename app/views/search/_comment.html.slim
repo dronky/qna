@@ -1,0 +1,6 @@
+.answer_search
+  - if comment.commentable_type == 'Question'
+    = link_to "Comment: #{comment.body[0..100]}", question_path(comment.commentable_id)
+  - else
+    = link_to "Comment: #{comment.body[0..100]}", question_path(Answer.get_question(comment.commentable_id))
+p

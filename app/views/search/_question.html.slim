@@ -1,0 +1,5 @@
+.question_search
+  = link_to "Question: #{question.title}", question_path(question)
+  div class="container"
+    = question.body[0..100]
+p

@@ -9,6 +9,7 @@ class Answer < ApplicationRecord
   has_many :comments, as: :commentable
 
   after_create :send_notification
+  after_save ThinkingSphinx::RealTime.callback_for(:answer)
 
   validates :body, presence: true
 
@@ -22,6 +23,10 @@ class Answer < ApplicationRecord
 
   def send_notification
     QuestionAnswerJob.perform_later(question)
+  end
+
+  def self.get_question(answer_id)
+    Answer.find(answer_id).question
   end
 
   def best_answer_flag

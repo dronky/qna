@@ -21,5 +21,6 @@ config/database.yml
 .idea
 config/*.sphinx.conf
 db/sphinx
+vendor/cache/
 
 /public/uploads

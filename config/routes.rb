@@ -27,6 +27,12 @@ Rails.application.routes.draw do
   root 'questions#index'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  # post 'search', to: 'search#search', defaults: { format: :html }
+  # get 'search', to: 'search#index', defaults: { format: :html }
+  # resources :search, only: :index, defaults: { format: :html }
+  get '/search/:page' => 'search#search', :as => 'search', defaults: { format: :html }
+
   resources :subscriptions, only: [:create, :destroy]
 
   resources :questions do
