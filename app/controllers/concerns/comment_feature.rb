@@ -5,6 +5,12 @@ module CommentFeature
     before_action :set_commentable, only: [:add_comment]
   end
 
+  def default_serializer_options
+    {
+        serializer: nil
+    }
+  end
+
   def add_comment
     @commentable.add_comment(params[:comment])
     # render json: @commentable.as_json(methods: :get_comment)
