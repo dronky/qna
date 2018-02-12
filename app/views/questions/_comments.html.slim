@@ -5,5 +5,5 @@ h2 Leave your comment for question here
   = f.submit "Comment"
 ul
   .comment_question_details data-id="#{@question.id}" data-type="question"
-    - @question.comments.reverse.each do |comment|
+    - @question.comments.each do |comment|
       li = comment.body

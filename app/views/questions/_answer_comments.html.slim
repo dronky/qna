@@ -7,5 +7,5 @@ h4 Leave your comment for answer here
   = f.submit "Comment"
 ul
   .comment_answer_details data-id="#{answer.id}" data-type="answer"
-    - answer.comments.reverse.each do |comment|
+    - answer.comments.each do |comment|
       li = comment.body

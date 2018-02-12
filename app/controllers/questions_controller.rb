@@ -69,7 +69,7 @@ class QuestionsController < ApplicationController
     @question = Question.find(params[:id])
     ActionCable.server.broadcast(
         "comments_question_#{@question.id}",
-        {question_id: @question.id, type: 'question', body:
+        {question_id: @question.id, id: @question.id, type: 'question', body:
             ApplicationController.render(
                 partial: 'questions/comment_for_websocket',
                 locals: {comment: @question.comments.last})
