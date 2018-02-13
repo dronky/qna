@@ -96,9 +96,10 @@ namespace :deploy do
   end
 
   after :publishing, :restart
-  before :publishing, :ts_stop
   after :publishing, :ts_index
-  after :publishing, :ts_start
+
+  # before :publishing, :ts_stop
+  # after :publishing, :ts_start
 
 end
 
