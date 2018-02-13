@@ -63,6 +63,9 @@ namespace :deploy do
   end
 
   after :publishing, :restart
+  before :publishing, 'thinking_sphinx:stop'
+  after  :publishing, 'thinking_sphinx:start'
+
 end
 
 # namespace :private_pub do
