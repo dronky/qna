@@ -63,13 +63,17 @@ namespace :deploy do
   end
 
   desc 'thinking_sphinx:stop'
-  task :ts_stop, :roles => :app do
-    rake 'ts:stop'
+  task :ts_stop do
+    on :roles => :app do
+      execute :rake, 'ts:stop'
+    end
   end
 
   desc 'thinking_sphinx:start'
-  task :ts_start, :roles => :app do
-    rake 'ts:start'
+  task :ts_start do
+    on :roles => :app do
+      execute :rake, 'ts:start'
+    end
   end
 
   after :publishing, :restart
