@@ -7,6 +7,6 @@ class DailyMailer < ApplicationMailer
   #
   def digest(user)
     @questions = Question.latest
-    mail to: user.email
+    mail to: user.email if @questions
   end
 end
