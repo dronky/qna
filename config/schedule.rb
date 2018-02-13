@@ -20,4 +20,8 @@ end
 every 60.minutes do
   rake "ts:index"
 end
+
+every :reboot do
+  rake "ts:start"
+end
 # Learn more: http://github.com/javan/whenever
