@@ -65,14 +65,22 @@ namespace :deploy do
   desc 'thinking_sphinx:stop'
   task :ts_stop do
     on roles(:app) do
-      execute :rake, 'ts:stop'
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :rake, 'ts:stop'
+        end
+      end
     end
   end
 
   desc 'thinking_sphinx:start'
   task :ts_start do
     on roles(:app) do
-      execute :rake, 'ts:start'
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :rake, 'ts:start'
+        end
+      end
     end
   end
 
