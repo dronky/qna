@@ -111,7 +111,8 @@ namespace :deploy do
     on roles(:app) do
       within release_path do
         with rails_env: fetch(:rails_env) do
-          execute :rake, 'ts:index ts:start'
+          execute :rake, 'ts:index'
+          execute :rake, 'ts:start'
         end
       end
     end
