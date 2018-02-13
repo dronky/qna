@@ -28,6 +28,7 @@ set :stage, :production
 set :sidekiq_config, -> { File.join(current_path, 'config', 'sidekiq.yml') }
 set :sidekiq_concurrency, 10
 set :sidekiq_log, "#{shared_path}/log/sidekiq.log"
+set :sidekiq_pid, "#{shared_path}/pids/sidekiq.pid"
 
 # Configuration
 # =============
