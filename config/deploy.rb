@@ -64,14 +64,14 @@ namespace :deploy do
 
   desc 'thinking_sphinx:stop'
   task :ts_stop do
-    on :roles => :app do
+    on roles(:app) do
       execute :rake, 'ts:stop'
     end
   end
 
   desc 'thinking_sphinx:start'
   task :ts_start do
-    on :roles => :app do
+    on roles(:app) do
       execute :rake, 'ts:start'
     end
   end
