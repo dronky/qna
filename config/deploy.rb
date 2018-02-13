@@ -23,7 +23,8 @@ append :linked_files, "config/database.yml", ".env"
 # , "config/secrets.yml"
 
 # Default value for linked_dirs is []
-append :linked_dirs, "bin", "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bundle", "public/system", "public/uploads"
+append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bundle", "public/system", "public/uploads"
+set :bundle_binstubs, nil
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
