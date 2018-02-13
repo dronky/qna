@@ -24,6 +24,10 @@ role :db,  %w{deployer@185.143.173.89}
 set :rails_env, :production
 set :stage, :production
 
+# sidekiq
+set :sidekiq_config, -> { File.join(current_path, ‘config’, ‘sidekiq.yml’) }
+set :sidekiq_concurrency, 10
+
 # Configuration
 # =============
 # You can set any configuration variable like in config/deploy.rb
