@@ -25,7 +25,7 @@ set :rails_env, :production
 set :stage, :production
 
 # sidekiq
-set :sidekiq_config, -> { File.join(current_path, ‘config’, ‘sidekiq.yml’) }
+set :sidekiq_config, -> { File.join(current_path, 'config', 'sidekiq.yml') }
 set :sidekiq_concurrency, 10
 
 # Configuration
