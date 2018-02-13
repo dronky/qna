@@ -26,6 +26,7 @@ class Ability
     alias_action :plus_vote, :minus_vote, :to => :vote
     guest_abilities
     can :me, User
+    can :add_comment, [Question, Answer]
     can :create, [Question, Answer, Comment, Subscription]
     can [:update, :destroy], [Question, Answer], user_id: user.id
     can [:vote], [Question, Answer]
