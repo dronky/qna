@@ -95,8 +95,19 @@ namespace :deploy do
     end
   end
 
+  desc 'thinking_sphinx:restart'
+  task :ts_restart do
+    on roles(:app) do
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :rake, 'ts:stop ts:configure ts:start'
+        end
+      end
+    end
+  end
+
   after :publishing, :restart
-  after :publishing, :ts_index
+  after :publishing, :ts_restart
 
   # before :publishing, :ts_stop
   # after :publishing, :ts_start
