@@ -84,8 +84,20 @@ namespace :deploy do
     end
   end
 
+  desc 'thinking_sphinx:index'
+  task :ts_index do
+    on roles(:app) do
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :rake, 'ts:index'
+        end
+      end
+    end
+  end
+
   after :publishing, :restart
   before :publishing, :ts_stop
+  after :publishing, :ts_index
   after :publishing, :ts_start
 
 end
