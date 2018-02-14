@@ -1,3 +1,4 @@
 :queues:
     - default
     - mailers
+#:pidfile: ./tmp/pids/sidekiq.pid

@@ -18,6 +18,8 @@ before_exec do |server|
   ENV['BUNDLE_GEMFILE'] = "#{app_path}/current/Gemfile"
 end
 
+pid "/home/deployer/qna/shared/pids/unicorn.pid"
+
 # preload
 preload_app true
 
