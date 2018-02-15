@@ -9,4 +9,5 @@ h4 Leave your comment for answer here
 ul
   .comment_answer_details data-id="#{answer.id}" data-type="answer"
     - answer.comments.each do |comment|
-      li = comment.body
+      - cache comment do
+        li = comment.body

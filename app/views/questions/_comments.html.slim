@@ -6,4 +6,5 @@ h2 Leave your comment for question here
 ul
   .comment_question_details data-id="#{@question.id}" data-type="question"
     - @question.comments.each do |comment|
-      li = comment.body
+      - cache comment do
+        li = comment.body
