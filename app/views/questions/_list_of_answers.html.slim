@@ -16,62 +16,63 @@ table class='table table-bordered'
       - if a.errors.any?
         - a.errors.full_messages.each do |m|
           = m
-      tr id=("answer_el-#{a.id}")
-        td = a.id
-        td
-          span id=("answer_el_body-#{a.id}")
-            = a.body
-        td
-          - if user_signed_in? && current_user.author_of?(a)
-            = link_to 'Delete', answer_path(a), method: :delete, data: {confirm: 'Are you sure?', remote: true}
-          - else
-            | Not permitted
-        td
-          - if user_signed_in? && current_user.author_of?(a)
-            = link_to 'Update', '#', class: "editAnswerButton", data: {answer_id: a.id}
-            = render 'questions/edit_answer', answer: a
-          - else
-            | Not permitted
-        td
-          - if user_signed_in? && current_user.author_of?(@question)
-            - if a.best_answer.equal?(false)
-              = link_to 'Mark as a best answer', answer_mark_as_best_path(answer_id: a.id, question_id: @question.id, id: a), method: :patch,  remote: true, id: "answer_#{a.id}"
+      - cache a do
+        tr id=("answer_el-#{a.id}")
+          td = a.id
+          td
+            span id=("answer_el_body-#{a.id}")
+              = a.body
+          td
+            - if user_signed_in? && current_user.author_of?(a)
+              = link_to 'Delete', answer_path(a), method: :delete, data: {confirm: 'Are you sure?', remote: true}
             - else
-              | This is a best answer
-          - else
-            | Not permitted
-        td
-          - if a.attachments.empty?
-            | No attachments yet
-          - else
-            ul
-              - a.attachments.each do |att|
-                li
-                  = link_to att.file.identifier, att.file.url
-        td
-          - if !user_signed_in?
-            p id=("answer_vote-#{a.id}")
-              | Result:
-              span = a.get_vote
-          - else
-            p id=("answer_vote-#{a.id}")
-              | Result:
-              span = a.get_vote
-            p
-              = link_to '+',
-                      answer_plus_vote_path(answer_id: a.id, question_id: @question.id, id: a),
-                      method: :post,
-                      remote: true,
-                      data: {answer_id: a.id, type: :json, vote: a.get_vote},
-                      class: 'vote_answer'
-            p
-              = link_to '-',
-                      answer_minus_vote_path(answer_id: a.id, question_id: @question.id, id: a),
-                      remote: true,
-                      method: :post,
-                      data: {answer_id: a.id, type: :json, vote: a.get_vote},
-                      class: 'vote_answer'
-        td
-          = link_to 'Reset', reset_votes_answer_path(answer_id: a.id, question_id: @question.id, id: a), method: :post, remote: true
-        td
-          = render 'questions/answer_comments', answer: a
+              | Not permitted
+          td
+            - if user_signed_in? && current_user.author_of?(a)
+              = link_to 'Update', '#', class: "editAnswerButton", data: {answer_id: a.id}
+              = render 'questions/edit_answer', answer: a
+            - else
+              | Not permitted
+          td
+            - if user_signed_in? && current_user.author_of?(@question)
+              - if a.best_answer.equal?(false)
+                = link_to 'Mark as a best answer', answer_mark_as_best_path(answer_id: a.id, question_id: @question.id, id: a), method: :patch,  remote: true, id: "answer_#{a.id}"
+              - else
+                | This is a best answer
+            - else
+              | Not permitted
+          td
+            - if a.attachments.empty?
+              | No attachments yet
+            - else
+              ul
+                - a.attachments.each do |att|
+                  li
+                    = link_to att.file.identifier, att.file.url
+          td
+            - if !user_signed_in?
+              p id=("answer_vote-#{a.id}")
+                | Result:
+                span = a.get_vote
+            - else
+              p id=("answer_vote-#{a.id}")
+                | Result:
+                span = a.get_vote
+              p
+                = link_to '+',
+                        answer_plus_vote_path(answer_id: a.id, question_id: @question.id, id: a),
+                        method: :post,
+                        remote: true,
+                        data: {answer_id: a.id, type: :json, vote: a.get_vote},
+                        class: 'vote_answer'
+              p
+                = link_to '-',
+                        answer_minus_vote_path(answer_id: a.id, question_id: @question.id, id: a),
+                        remote: true,
+                        method: :post,
+                        data: {answer_id: a.id, type: :json, vote: a.get_vote},
+                        class: 'vote_answer'
+          td
+            = link_to 'Reset', reset_votes_answer_path(answer_id: a.id, question_id: @question.id, id: a), method: :post, remote: true
+          td
+            = render 'questions/answer_comments', answer: a

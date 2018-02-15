@@ -41,6 +41,7 @@ gem 'carrierwave'
 gem 'redis', "~> 3.0"
 gem 'will_paginate'
 gem 'unicorn'
+gem 'redis-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

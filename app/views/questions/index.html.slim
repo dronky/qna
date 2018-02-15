@@ -1,25 +1,26 @@
-h1 List of questions
-table
-  thead
-    tr
-      th Id
-      th Title
-      th Details
-      th Delete
-  tbody.questions_list
-    - @questions.each do |c|
+- cache collection_key_for :question do
+  h1 List of questions
+  table
+    thead
       tr
-        td
-          = c.id
-        td
-          = c.title
-        td
-          = link_to 'Show', question_path(c.id)
-        td
-          - if can? :destroy, c
-            = link_to 'Delete', question_path(c), method: :delete, data: { confirm: 'Are you sure?' }
-          - else
-            | Not permitted
-h3
-  -if can?(:create, Question)
-    = link_to 'Create question', new_question_path
+        th Id
+        th Title
+        th Details
+        th Delete
+    tbody.questions_list
+      - @questions.each do |c|
+        tr
+          td
+            = c.id
+          td
+            = c.title
+          td
+            = link_to 'Show', question_path(c.id)
+          td
+            - if can? :destroy, c
+              = link_to 'Delete', question_path(c), method: :delete, data: {confirm: 'Are you sure?'}
+            - else
+              | Not permitted
+  h3
+    - if can?(:create, Question)
+      = link_to 'Create question', new_question_path

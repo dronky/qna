@@ -1,71 +1,72 @@
-h1 Question details
+- cache @question do
+  h1 Question details
 
-.question_content
-  .question_details data-id="#{@question.id}"
-  #question_title
-    p
-      | Title:
-      span = @question.title
-  #question_body
-    p
-      | Body:
-      span = @question.body
-  #question_attachments
-    p
-      | Attachments:
-      - if @question.attachments.empty?
-        | No attachments yet
-      - else
-        ul
-          - @question.attachments.each do |att|
-            li
-              = link_to att.file.identifier, att.file.url
+  .question_content
+    .question_details data-id="#{@question.id}"
+    #question_title
+      p
+        | Title:
+        span = @question.title
+    #question_body
+      p
+        | Body:
+        span = @question.body
+    #question_attachments
+      p
+        | Attachments:
+        - if @question.attachments.empty?
+          | No attachments yet
+        - else
+          ul
+            - @question.attachments.each do |att|
+              li
+                = link_to att.file.identifier, att.file.url
 
-  - if !user_signed_in?
-    p id=("question_vote-#{@question.id}")
-    | Rating:
-    span = @question.get_vote
-  - elsif @question.votes.where(user_id: current_user.id, clicked: true).exists?
-    p id=("question_vote-#{@question.id}")
+    - if !user_signed_in?
+      p id=("question_vote-#{@question.id}")
       | Rating:
       span = @question.get_vote
-  - else
-    div id=("question_vote-#{@question.id}")
-      | Rating:
-      span = @question.get_vote
+    - elsif @question.votes.where(user_id: current_user.id, clicked: true).exists?
+      p id=("question_vote-#{@question.id}")
+        | Rating:
+        span = @question.get_vote
+    - else
+      div id=("question_vote-#{@question.id}")
+        | Rating:
+        span = @question.get_vote
+        p
+          = link_to '+',
+                  plus_vote_question_path(@question),
+                  remote: true,
+                  data: {type: :json, vote: @question.get_vote},
+                  class: 'vote_question',
+                  method: :post
+        p
+          = link_to '-',
+                  minus_vote_question_path(question_id: @question.id, id: @question),
+                  remote: true,
+                  data: {answer_id: @question.id, type: :json, vote: @question.get_vote - 1},
+                  class: 'vote_question',
+                  method: :post
+  .question_content
+    - if user_signed_in?
+      div class="sub"
+        = render partial: 'subscriptions/subscription_form', locals: {question: @question}
+      div
+        = link_to 'Edit', '#', id: "editButton"
+        #edit_form
+          = render 'questions/edit_question'
+        p
+          = link_to 'Answer on it', '#', id: "answerButton"
+        #comment_form
+          = render 'questions/answer_from'
+    - else
       p
-        = link_to '+',
-                plus_vote_question_path(@question),
-                remote: true,
-                data: {type: :json, vote: @question.get_vote},
-                class: 'vote_question',
-                method: :post
-      p
-        = link_to '-',
-                minus_vote_question_path(question_id: @question.id, id: @question),
-                remote: true,
-                data: {answer_id: @question.id, type: :json, vote: @question.get_vote - 1},
-                class: 'vote_question',
-                method: :post
-.question_content
-  - if user_signed_in?
-    div class="sub"
-      = render partial: 'subscriptions/subscription_form', locals: {question: @question}
-    div
-      = link_to 'Edit', '#', id: "editButton"
-      #edit_form
-        = render 'questions/edit_question'
-      p
-        = link_to 'Answer on it', '#', id: "answerButton"
-      #comment_form
-        = render 'questions/answer_from'
-  - else
-    p
-      | Please Sign Up or Sign In to be able to leave an answer.
-    h2
-      = link_to "Sign up", new_user_registration_path
+        | Please Sign Up or Sign In to be able to leave an answer.
+      h2
+        = link_to "Sign up", new_user_registration_path
 
-#list_of_answers
-  = render 'questions/list_of_answers'
-.comments_section
-  = render 'questions/comments'
+  #list_of_answers
+    = render 'questions/list_of_answers'
+  .comments_section
+    = render 'questions/comments'
